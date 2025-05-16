@@ -26,13 +26,13 @@ public class Filme {
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)
-    private Formato formato;
+    private Filme formato;
 
     public Filme() {
     }
 
     public Filme(long id, String titulo, String sinopse, int duracao,
-            String classificacao, String genero, String imageUrl, Formato formato) {
+            String classificacao, String genero, String imageUrl, Filme formato) {
         this.id = id;
         this.titulo = titulo;
         this.sinopse = sinopse;
@@ -99,11 +99,11 @@ public class Filme {
         this.imageUrl = imageUrl;
     }
 
-    public Formato getFormato() {
+    public Filme getFormato() {
         return formato;
     }
 
-    public void setFormato(Formato formato) {
+    public void setFormato(Filme formato) {
         this.formato = formato;
     }
 
