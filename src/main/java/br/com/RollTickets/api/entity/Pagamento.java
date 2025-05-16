@@ -86,8 +86,4 @@ public class Pagamento {
     public void setDataHoraPagamento(LocalDateTime dataHoraPagamento) {
         this.dataHoraPagamento = dataHoraPagamento;
     }
-
-
-
-
 }
