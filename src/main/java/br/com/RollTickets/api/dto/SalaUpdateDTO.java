@@ -3,6 +3,6 @@ package br.com.RollTickets.api.dto;
 public record SalaUpdateDTO(
 		long id,
 		long numero,
-		Assento asssento,
+		A asssento,
 		long capacidade
 		) {}
