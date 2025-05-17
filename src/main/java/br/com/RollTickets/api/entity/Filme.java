@@ -1,14 +1,12 @@
 package br.com.RollTickets.api.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.time.Instant;
-
 import br.com.RollTickets.api.enums.Formato;
 
 @Entity
@@ -26,13 +24,13 @@ public class Filme {
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)
-    private Filme formato;
+    private Formato formato;
 
     public Filme() {
     }
 
     public Filme(long id, String titulo, String sinopse, int duracao,
-            String classificacao, String genero, String imageUrl, Filme formato) {
+            String classificacao, String genero, String imageUrl, Formato formato) {
         this.id = id;
         this.titulo = titulo;
         this.sinopse = sinopse;
@@ -99,11 +97,11 @@ public class Filme {
         this.imageUrl = imageUrl;
     }
 
-    public Filme getFormato() {
+    public Formato getFormato() {
         return formato;
     }
 
-    public void setFormato(Filme formato) {
+    public void setFormato(Formato formato) {
         this.formato = formato;
     }
 
