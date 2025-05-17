@@ -1,8 +1,10 @@
 package br.com.RollTickets.api.dto;
 
+import br.com.RollTickets.api.entity.Assento;
+
 public record SalaResponseDTO(
 		long id,
 		long numero,
-		A asssento,
+		Assento asssento,
 		long capacidade
 		) {}
