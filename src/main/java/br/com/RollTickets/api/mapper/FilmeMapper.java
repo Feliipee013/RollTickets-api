@@ -1,26 +1,24 @@
 package br.com.RollTickets.api.mapper;
-import br.com.RollTickets.api.dto.ClienteCreateDTO;
-import br.com.RollTickets.api.dto.ClienteResponseDTO;
 import br.com.RollTickets.api.dto.FilmeCreateDTO;
 import br.com.RollTickets.api.dto.FilmeResponseDTO;
-import br.com.RollTickets.api.dto.FilmeUpdateDTO;
 import br.com.RollTickets.api.entity.Filme;
 
 public class FilmeMapper {
     public static FilmeResponseDTO toDTO(Filme filme) {
-		FilmeResponseDTO FilmeResponse = new FilmeResponseDTO(Filme.getId(), Filme.getTitulo(), Filme.getSinopse(), Filme.getDuracao(), Filme.getClassificacao(), Filme.getGenero(), Filme.getImageUrl(), Filme.getFormato());
+		FilmeResponseDTO FilmeResponse = new FilmeResponseDTO(filme.getId(),filme.getTitulo(),filme.getSinopse(),filme.getDuracao(),filme.getClassificacao(),filme.getGenero(),filme.getImageUrl(),filme.getFormato());
 		return FilmeResponse;
 	}
 	
-	public static Filme toEntity(FilmeResponseDTO filmeResponseDTO) {
+	public static Filme toEntity(FilmeCreateDTO filmeCreateDTO) {
 		Filme filme = new Filme();
-		filme.getId(FilmeResponseDTO.id());
-		filme.getTitulo(FilmeResponseDTO.titulo());
-		filme.getSinopse(FilmeResponseDTO.sinopse());
-		filme.setDuracao(FilmeResponseDTO.duracao());
-		filme.getClassificacao(FilmeResponseDTO.classificacao());
-        filme.getImageUrl(FilmeResponseDTO.imageUrl());
-        filme.getFormato()(FilmeResponseDTO.formato());
+
+		filme.setTitulo(filmeCreateDTO.titulo());
+		filme.setSinopse(filmeCreateDTO.sinopse());
+		filme.setDuracao(filmeCreateDTO.duracao());
+		filme.setClassificacao(filmeCreateDTO.classificacao());
+        filme.setImageUrl(filmeCreateDTO.imageUrl());
+        filme.setFormato(filmeCreateDTO.formato()); 
+
 
 		return filme;
 	}

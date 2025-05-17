@@ -8,7 +8,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-import br.com.RollTickets.api.entity.Assento;
 
 @Entity
 @Table(name = "salas")
