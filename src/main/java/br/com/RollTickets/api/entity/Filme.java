@@ -7,11 +7,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
 import br.com.RollTickets.api.enums.Formato;
 
 @Entity
-@Table(name = "Filme")
+@Table(name = "filmes")
 public class Filme {
 
     @Id
@@ -30,8 +29,10 @@ public class Filme {
     public Filme() {
     }
 
-    public Filme(String titulo, String sinopse, int duracao,
+
+    public Filme(long id, String titulo, String sinopse, int duracao,
             String classificacao, String genero, String imageUrl, Formato formato) {
+        this.id = id;
         this.titulo = titulo;
         this.sinopse = sinopse;
         this.duracao = duracao;
