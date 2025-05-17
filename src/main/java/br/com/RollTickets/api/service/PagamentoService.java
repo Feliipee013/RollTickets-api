@@ -5,16 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.RollTickets.api.dto.ClienteCreateDTO;
-import br.com.RollTickets.api.dto.ClienteResponseDTO;
-import br.com.RollTickets.api.dto.ClienteUpdateDTO;
 import br.com.RollTickets.api.dto.PagamentoCreateDTO;
 import br.com.RollTickets.api.dto.PagamentoResponseDTO;
 import br.com.RollTickets.api.dto.PagamentoUpdateDTO;
 import br.com.RollTickets.api.entity.Pagamento;
-import br.com.RollTickets.api.mapper.ClienteMapper;
 import br.com.RollTickets.api.mapper.PagamentoMapper;
-import br.com.RollTickets.api.repository.ClienteRepository;
 import br.com.RollTickets.api.repository.PagamentoRepository;
 
 @Service

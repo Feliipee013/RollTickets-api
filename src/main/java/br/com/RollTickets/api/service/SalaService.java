@@ -36,7 +36,7 @@ public class SalaService {
 	
 	public SalaResponseDTO update(SalaUpdateDTO salaUpdateDTO) {
 		Sala sala = salaRepository.findById(salaUpdateDTO.id()).orElseThrow(()->new RuntimeException("Sala não encontrada para alteração"));
-		sala.setAssento(salaUpdateDTO.asssento());
+		sala.setAssento(salaUpdateDTO.assento());
 		sala.setCapacidade(salaUpdateDTO.capacidade());
 		sala.setNumero(salaUpdateDTO.numero());
 		return SalaMapper.toDTO(salaRepository.save(sala));
