@@ -11,13 +11,14 @@ public class FilmeMapper {
 	
 	public static Filme toEntity(FilmeCreateDTO filmeCreateDTO) {
 		Filme filme = new Filme();
-		filme.setId(filmeCreateDTO.id());
 		filme.setTitulo(filmeCreateDTO.titulo());
 		filme.setSinopse(filmeCreateDTO.sinopse());
 		filme.setDuracao(filmeCreateDTO.duracao());
 		filme.setClassificacao(filmeCreateDTO.classificacao());
-        filme.setImageUrl(filmeCreateDTO.imageUrl());
-        filme.setFormato(filmeCreateDTO.formato());
+    filme.setGenero(filmeCreateDTO.genero());
+    filme.setImageUrl(filmeCreateDTO.imageUrl());
+    filme.setFormato(filmeCreateDTO.formato()); 
+
 
 		return filme;
 	}

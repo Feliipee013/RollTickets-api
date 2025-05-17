@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 import br.com.RollTickets.api.enums.Formato;
 
 @Entity
-@Table(name = "Filme")
+@Table(name = "filmes")
 public class Filme {
 
     @Id
@@ -29,6 +29,7 @@ public class Filme {
     public Filme() {
     }
 
+
     public Filme(long id, String titulo, String sinopse, int duracao,
             String classificacao, String genero, String imageUrl, Formato formato) {
         this.id = id;
@@ -41,6 +42,7 @@ public class Filme {
         this.formato = formato;
     }
 
+    
     public long getId() {
         return id;
     }
