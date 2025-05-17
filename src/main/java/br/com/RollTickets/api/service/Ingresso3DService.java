@@ -14,15 +14,9 @@ import br.com.RollTickets.api.repository.Ingresso3DRepository;
 
 @Service
 public class Ingresso3DService {
-
-    private final controller.Ingresso3DController ingresso3DController;
 	
 	@Autowired
 	Ingresso3DRepository ingresso3DRepostory;
-
-    Ingresso3DService(controller.Ingresso3DController ingresso3DController) {
-        this.ingresso3DController = ingresso3DController;
-    }
 	
 	public Ingresso3DResponseDTO store(Ingresso3DCreateDTO ingresso3DCreateDTO) {
 		Ingresso3D ingresso3D = Ingresso3DMapper.toEntity(ingresso3DCreateDTO);
