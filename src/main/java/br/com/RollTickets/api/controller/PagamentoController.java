@@ -17,14 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.RollTickets.api.dto.PagamentoCreateDTO;
 import br.com.RollTickets.api.dto.PagamentoResponseDTO;
 import br.com.RollTickets.api.dto.PagamentoUpdateDTO;
-import br.com.RollTickets.api.dto.ClienteUpdateDTO;
-import br.com.RollTickets.api.service.ClienteService;
+import br.com.RollTickets.api.service.PagamentoService;
 
 @RestController
 @RequestMapping("/pagamentos")
 public class PagamentoController {
     @Autowired
-	PagametoService pagamentoService;
+	PagamentoService pagamentoService;
 	
 	@PostMapping("/realizar")
 	public ResponseEntity<PagamentoResponseDTO> store(@RequestBody PagamentoCreateDTO pagamentoCreateDTO) {

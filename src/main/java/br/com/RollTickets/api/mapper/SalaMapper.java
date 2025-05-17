@@ -1,10 +1,8 @@
 package br.com.RollTickets.api.mapper;
 
-import br.com.RollTickets.api.dto.ClienteCreateDTO;
-import br.com.RollTickets.api.dto.ClienteResponseDTO;
+
 import br.com.RollTickets.api.dto.SalaCreateDTO;
 import br.com.RollTickets.api.dto.SalaResponseDTO;
-import br.com.RollTickets.api.entity.Cliente;
 import br.com.RollTickets.api.entity.Sala;
 
 public class SalaMapper {
