@@ -7,7 +7,7 @@ import br.com.RollTickets.api.entity.Assento;
 public class AssentoMapper {
 
     public static AssentoResponseDTO toDTO(Assento assento) {
-        AssentoResponseDTO assentoResponse = new AssentoResponseDTO(assento.getId(), assento.getFileira(), assento.getNumero());
+        AssentoResponseDTO assentoResponse = new AssentoResponseDTO(assento.getId(), assento.getFileira(), assento.getNumero(), assento.getSala());
         return assentoResponse;
     }
 
@@ -15,6 +15,7 @@ public class AssentoMapper {
         Assento assento = new Assento();
         assento.setFileira(assentoCreateDTO.fileira());
         assento.setNumero(assentoCreateDTO.numero());
+        assento.setSala(assentoCreateDTO.sala());
         return assento;
     }
 }
