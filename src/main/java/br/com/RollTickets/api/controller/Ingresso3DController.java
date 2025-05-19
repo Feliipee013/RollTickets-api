@@ -20,7 +20,7 @@ import br.com.RollTickets.api.dto.Ingresso3DUpdateDTO;
 import br.com.RollTickets.api.service.Ingresso3DService;
 
 @RestController
-@RequestMapping("/ingressos_3D")
+@RequestMapping("/api/ingressos_3D")
 public class Ingresso3DController {
 	@Autowired
 	Ingresso3DService ingresso3DService;

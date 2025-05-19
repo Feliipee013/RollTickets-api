@@ -20,7 +20,7 @@ import br.com.RollTickets.api.dto.PagamentoUpdateDTO;
 import br.com.RollTickets.api.service.PagamentoService;
 
 @RestController
-@RequestMapping("/pagamentos")
+@RequestMapping("/api/pagamentos")
 public class PagamentoController {
     @Autowired
 	PagamentoService pagamentoService;

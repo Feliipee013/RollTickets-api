@@ -20,7 +20,7 @@ import br.com.RollTickets.api.dto.ClienteUpdateDTO;
 import br.com.RollTickets.api.service.ClienteService;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/api/clientes")
 public class ClienteController {
 	
 	@Autowired
