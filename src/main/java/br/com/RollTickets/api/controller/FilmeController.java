@@ -13,7 +13,7 @@ import br.com.RollTickets.api.dto.FilmeUpdateDTO;
 import br.com.RollTickets.api.service.FilmeService;
 
 @RestController
-@RequestMapping("/filmes")
+@RequestMapping("/api/filmes")
 public class FilmeController {
 
     @Autowired
