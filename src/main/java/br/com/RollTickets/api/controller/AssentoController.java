@@ -20,7 +20,7 @@ import br.com.RollTickets.api.dto.AssentoUpdateDTO;
 import br.com.RollTickets.api.service.AssentoService;
 
 @RestController
-@RequestMapping("/assentos")
+@RequestMapping("/api/assentos")
 public class AssentoController {
 
     @Autowired
