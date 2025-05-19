@@ -8,13 +8,12 @@ import br.com.RollTickets.api.entity.Sala;
 public class SalaMapper {
 
 	public static SalaResponseDTO toDTO(Sala sala) {
-		SalaResponseDTO salaResponse = new SalaResponseDTO(sala.getId(), sala.getNumero(), sala.getAssento(), sala.getCapacidade());
+		SalaResponseDTO salaResponse = new SalaResponseDTO(sala.getId(), sala.getNumero(), sala.getCapacidade());
 		return salaResponse;
 	}
 	
 	public static Sala toEntity(SalaCreateDTO salaCreateDTO) {
 		Sala sala= new Sala();
-		sala.setAssento(salaCreateDTO.asssento());
 		sala.setNumero(salaCreateDTO.numero());
 		sala.setCapacidade(salaCreateDTO.capacidade());
 		return sala;

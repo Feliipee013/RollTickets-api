@@ -4,8 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 
@@ -19,20 +17,14 @@ public class Sala {
 
     private long numero;
 
-    @OneToOne
-    @JoinColumn(name = "id_assento")
-    private Assento assento;
-
     private long capacidade;
 
     public Sala() {
     }
 
-    public Sala(long id, long numero, Assento assento, long capacidade) {
-        super();
+    public Sala(long id, long numero, long capacidade) {
         this.id = id;
         this.numero = numero;
-        this.assento = assento;
         this.capacidade = capacidade;
     }
 
@@ -52,13 +44,6 @@ public class Sala {
         this.numero = numero;
     }
 
-    public Assento getAssento() {
-        return assento;
-    }
-
-    public void setAssento(Assento assento) {
-        this.assento = assento;
-    }
 
     public long getCapacidade() {
         return capacidade;
