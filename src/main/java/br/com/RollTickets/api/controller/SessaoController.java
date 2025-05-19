@@ -20,7 +20,7 @@ import br.com.RollTickets.api.service.SessaoService;
 
 
 @RestController
-@RequestMapping("/sessoes")
+@RequestMapping("/api/sessoes")
 public class SessaoController {
     @Autowired
 	SessaoService sessaoService;
