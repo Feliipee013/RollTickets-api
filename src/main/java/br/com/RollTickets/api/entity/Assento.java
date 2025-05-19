@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,16 +18,20 @@ public class Assento {
     private long id;
     private String fileira;
     private String numero;
+    
+    @ManyToOne
+    @JoinColumn(name = "sala_id")
+    private Sala sala;
 
     public Assento() {
 
     }
 
-    public Assento(long id, String fileira, String numero) {
-        super();
+    public Assento(long id, String fileira, String numero, Sala sala) {
         this.id = id;
         this.fileira = fileira;
         this.numero = numero;
+        this.sala = sala;
     }
 
     public long getId() {
@@ -51,10 +57,19 @@ public class Assento {
     public void setNumero(String numero) {
         this.numero = numero;
     }
+    
 
-    @Override
+    public Sala getSala() {
+		return sala;
+	}
+
+	public void setSala(Sala sala) {
+		this.sala = sala;
+	}
+
+	@Override
     public String toString() {
-        return "Assento [id=" + id + ",fileira=" + fileira + ", numero=" + numero + "]";
+        return "Assento [id=" + id + ",fileira=" + fileira + ", numero=" + numero + ", sala =" + sala + "]";
     }
 }
 
