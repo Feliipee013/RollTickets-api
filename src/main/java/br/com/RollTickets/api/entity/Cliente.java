@@ -24,7 +24,6 @@ public class Cliente {
 	}
 	
 	public Cliente(long id, String nome, String email, String senha, String cpf, String telefone) {
-		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
