@@ -4,8 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+<<<<<<< HEAD
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+=======
+>>>>>>> 15f5abb3004d0c8d51fdb439919b7bd865265997
 import jakarta.persistence.Table;
 
 
@@ -19,20 +22,29 @@ public class Sala {
 
     private long numero;
 
+<<<<<<< HEAD
     @OneToOne
     @JoinColumn(name = "id_assento")
     private Assento assento;
 
+=======
+>>>>>>> 15f5abb3004d0c8d51fdb439919b7bd865265997
     private long capacidade;
 
     public Sala() {
     }
 
+<<<<<<< HEAD
     public Sala(long id, long numero, Assento assento, long capacidade) {
         super();
         this.id = id;
         this.numero = numero;
         this.assento = assento;
+=======
+    public Sala(long id, long numero, long capacidade) {
+        this.id = id;
+        this.numero = numero;
+>>>>>>> 15f5abb3004d0c8d51fdb439919b7bd865265997
         this.capacidade = capacidade;
     }
 
@@ -52,6 +64,7 @@ public class Sala {
         this.numero = numero;
     }
 
+<<<<<<< HEAD
     public Assento getAssento() {
         return assento;
     }
@@ -59,6 +72,8 @@ public class Sala {
     public void setAssento(Assento assento) {
         this.assento = assento;
     }
+=======
+>>>>>>> 15f5abb3004d0c8d51fdb439919b7bd865265997
 
     public long getCapacidade() {
         return capacidade;

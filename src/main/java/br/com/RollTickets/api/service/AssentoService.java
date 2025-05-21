@@ -43,6 +43,10 @@ public class AssentoService {
 
         assento.setFileira(assentoUpdateDTO.fileira());
         assento.setNumero(assentoUpdateDTO.numero());
+<<<<<<< HEAD
+=======
+        assento.setSala(assentoUpdateDTO.sala());
+>>>>>>> 15f5abb3004d0c8d51fdb439919b7bd865265997
 
         return AssentoMapper.toDTO(assentoRepository.save(assento));
     }

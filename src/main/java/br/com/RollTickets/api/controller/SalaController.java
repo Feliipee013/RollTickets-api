@@ -20,7 +20,11 @@ import br.com.RollTickets.api.dto.SalaUpdateDTO;
 import br.com.RollTickets.api.service.SalaService;
 
 @RestController
+<<<<<<< HEAD
 @RequestMapping("\salas")
+=======
+@RequestMapping("/api/salas")
+>>>>>>> 15f5abb3004d0c8d51fdb439919b7bd865265997
 public class SalaController {
 	
 	@Autowired

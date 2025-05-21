@@ -20,7 +20,11 @@ import br.com.RollTickets.api.dto.Ingresso2DUpdateDTO;
 import br.com.RollTickets.api.service.Ingresso2DService;
 
 @RestController
+<<<<<<< HEAD
 @RequestMapping("/ingressos_2D")
+=======
+@RequestMapping("/api/ingressos_2D")
+>>>>>>> 15f5abb3004d0c8d51fdb439919b7bd865265997
 public class Ingresso2DController {
 	@Autowired
 	Ingresso2DService ingresso2DService;
