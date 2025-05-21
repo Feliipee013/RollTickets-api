@@ -1,6 +1,6 @@
 package br.com.RollTickets.api.mapper;
 
-import br.com.RollTickets.api.controller.ClienteCreateDTO;
+import br.com.RollTickets.api.dto.ClienteCreateDTO;
 import br.com.RollTickets.api.dto.ClienteResponseDTO;
 import br.com.RollTickets.api.entity.Cliente;
 

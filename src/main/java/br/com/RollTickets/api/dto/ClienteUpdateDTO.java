@@ -1,6 +1,7 @@
-package br.com.RollTickets.api.controller;
+package br.com.RollTickets.api.dto;
 
-public record ClienteCreateDTO(
+public record ClienteUpdateDTO(
+		long id,
 		String nome,
 		String email,
 		String senha,

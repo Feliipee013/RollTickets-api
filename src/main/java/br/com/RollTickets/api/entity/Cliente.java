@@ -13,7 +13,6 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private long k;
 	private String nome;
 	private String email;
 	private String senha;
@@ -25,7 +24,6 @@ public class Cliente {
 	}
 	
 	public Cliente(long id, String nome, String email, String senha, String cpf, String telefone) {
-		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
