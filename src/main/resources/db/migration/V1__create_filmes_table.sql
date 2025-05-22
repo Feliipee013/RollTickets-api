@@ -6,5 +6,5 @@ CREATE TABLE filmes(
     classificacao VARCHAR(10),
     genero VARCHAR(50),
     image_url VARCHAR(255),
-    formato ENUM('2D', '3D') NOT NULL
+    formato ENUM('DOIS_D', 'TRES_D') NOT NULL
 );

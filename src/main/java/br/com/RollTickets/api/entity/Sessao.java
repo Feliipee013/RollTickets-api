@@ -19,11 +19,11 @@ public class Sessao {
     private long id;
 
     @OneToOne
-    @JoinColumn(name = "id_filme")
+    @JoinColumn(name = "filme_id")
     private Filme filme;
 
     @OneToOne
-    @JoinColumn(name = "id_sala")
+    @JoinColumn(name = "sala_id")
     private Sala sala;
 
     LocalDateTime horario;

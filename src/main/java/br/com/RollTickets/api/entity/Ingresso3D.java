@@ -1,13 +1,15 @@
 package br.com.RollTickets.api.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "ingressos_3D")
+@Table(name = "ingressos_3d")
 public class Ingresso3D extends Ingresso{
 	
 	private	boolean incluiOculos;
+	@Column(name = "taxa_extra_3d")
 	private double taxaExtra3D;
 	
 	public Ingresso3D() {

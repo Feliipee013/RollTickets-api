@@ -23,15 +23,15 @@ public class Ingresso {
 	private double preco;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_sessao")
+	@JoinColumn(name = "sessao_id")
 	private Sessao sessao;
 	
 	@OneToOne
-	@JoinColumn(name = "id_assento")
+	@JoinColumn(name = "assento_id")
 	private Assento assento;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_cliente")
+	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 	
 	public Ingresso() {

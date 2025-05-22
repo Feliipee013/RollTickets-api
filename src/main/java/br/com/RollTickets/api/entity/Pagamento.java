@@ -24,7 +24,7 @@ public class Pagamento {
 	private long id;
 
     @OneToOne
-	@JoinColumn(name="id_ingresso")
+	@JoinColumn(name="ingresso_id")
 	private Ingresso ingresso;
 
     @Enumerated(EnumType.STRING)
