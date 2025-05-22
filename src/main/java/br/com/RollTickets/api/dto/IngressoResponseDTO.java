@@ -4,10 +4,13 @@ import br.com.RollTickets.api.entity.Assento;
 import br.com.RollTickets.api.entity.Cliente;
 import br.com.RollTickets.api.entity.Sessao;
 
-public record Ingresso2DResponseDTO(
+public record IngressoResponseDTO(
 		long id,
+		String tipo,
 		double preco,
 		Sessao sessao,
 		Assento assento,
-		Cliente cliente
+		Cliente cliente,
+		Boolean incluiOculos,
+		Double taxaExtra3D
 		) {}
