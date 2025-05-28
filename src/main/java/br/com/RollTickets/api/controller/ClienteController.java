@@ -30,6 +30,7 @@ public class ClienteController {
 	@PostMapping("/cadastrar")
 	public ResponseEntity<ClienteResponseDTO> store(@RequestBody ClienteCreateDTO clienteCreateDTO) {
 		return new ResponseEntity<>(clienteService.store(clienteCreateDTO), HttpStatus.CREATED);
+
 	}
 
 	@PostMapping("/login")
@@ -40,6 +41,7 @@ public class ClienteController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
 		}
+
 	}
 
 	@GetMapping
