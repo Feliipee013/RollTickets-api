@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.RollTickets.api.dto.ClienteCreateDTO;
+import br.com.RollTickets.api.dto.ClienteLoginDTO;
 import br.com.RollTickets.api.dto.ClienteResponseDTO;
 import br.com.RollTickets.api.dto.ClienteUpdateDTO;
 import br.com.RollTickets.api.entity.Cliente;
@@ -23,6 +24,15 @@ public class ClienteService {
 		clienteRepository.save(cliente);
 		return ClienteMapper.toDTO(cliente);
 	}
+
+	public ClienteResponseDTO login(ClienteLoginDTO clienteLoginDTO) {
+		Cliente cliente = ClienteRepository.findByEmail(clienteLoginDTO.email());
+		if(cliente == null || !cliente.getSenha().equals(clienteLoginDTO.senha)){
+			throw new RuntimeException("Credenciais inválidas");
+		}
+
+		return new ClienteResponseDTO(cliente);
+	}
 	
 	public List<ClienteResponseDTO> list() {
 		return clienteRepository.findAll().stream().map(ClienteMapper::toDTO).toList();
@@ -33,6 +43,8 @@ public class ClienteService {
 					.orElseThrow(()->new RuntimeException("Cliente com id" + id + " não encontrado"));
 			return ClienteMapper.toDTO(cliente);
 	}
+
+
 	
 	public ClienteResponseDTO update(ClienteUpdateDTO clienteUpdateDTO) {
 		Cliente cliente = clienteRepository.findById(clienteUpdateDTO.id()).orElseThrow(()->new RuntimeException("Cliente não encontrado para alteração"));
