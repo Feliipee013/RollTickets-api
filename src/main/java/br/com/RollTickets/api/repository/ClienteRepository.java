@@ -7,6 +7,8 @@ import br.com.RollTickets.api.entity.Cliente;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
+
     Optional<Cliente> findByEmail(String email);
+
 
 }
