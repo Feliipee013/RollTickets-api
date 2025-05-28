@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.RollTickets.api.dto.ClienteCreateDTO;
 import br.com.RollTickets.api.dto.ClienteResponseDTO;
-import br.com.RollTickets.api.dto.ClienteLoginDTO;
 import br.com.RollTickets.api.dto.ClienteUpdateDTO;
 import br.com.RollTickets.api.service.ClienteService;
 
@@ -30,18 +29,6 @@ public class ClienteController {
 	@PostMapping("/cadastrar")
 	public ResponseEntity<ClienteResponseDTO> store(@RequestBody ClienteCreateDTO clienteCreateDTO) {
 		return new ResponseEntity<>(clienteService.store(clienteCreateDTO), HttpStatus.CREATED);
-		
-	}
-
-	@PostMapping("/login")
-	public ResponseEntity<ClienteResponseDTO> login(@RequestBody ClienteLoginDTO clienteLoginDTO) {
-		try {
-			ClienteResponseDTO cliente = clienteService.login(clienteLoginDTO);
-			return new ResponseEntity<>(cliente,HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity(e.getMessage(),HttpStatus.UNAUTHORIZED);
-		}
-		
 	}
 	
 	
