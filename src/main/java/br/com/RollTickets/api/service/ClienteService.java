@@ -26,13 +26,15 @@ public class ClienteService {
 	}
 
 	public ClienteResponseDTO login(ClienteLoginDTO clienteLoginDTO) {
-		Cliente cliente = ClienteRepository.findByEmail(clienteLoginDTO.email());
-		if(cliente == null || !cliente.getSenha().equals(clienteLoginDTO.senha)){
-			throw new RuntimeException("Credenciais inválidas");
-		}
+    Cliente cliente = clienteRepository.findByEmail(clienteLoginDTO.email())
+        .orElseThrow(() -> new RuntimeException("Email não encontrado"));
 
-		return new ClienteResponseDTO(cliente);
-	}
+    if (!cliente.getSenha().equals(clienteLoginDTO.senha())) {
+        throw new RuntimeException("Senha incorreta");
+    }
+
+    return ClienteMapper.toDTO(cliente);
+}
 	
 	public List<ClienteResponseDTO> list() {
 		return clienteRepository.findAll().stream().map(ClienteMapper::toDTO).toList();
@@ -43,8 +45,6 @@ public class ClienteService {
 					.orElseThrow(()->new RuntimeException("Cliente com id" + id + " não encontrado"));
 			return ClienteMapper.toDTO(cliente);
 	}
-
-
 	
 	public ClienteResponseDTO update(ClienteUpdateDTO clienteUpdateDTO) {
 		Cliente cliente = clienteRepository.findById(clienteUpdateDTO.id()).orElseThrow(()->new RuntimeException("Cliente não encontrado para alteração"));
