@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.RollTickets.api.dto.ClienteCreateDTO;
+import br.com.RollTickets.api.dto.ClienteLoginDTO;
 import br.com.RollTickets.api.dto.ClienteResponseDTO;
 import br.com.RollTickets.api.dto.ClienteUpdateDTO;
 import br.com.RollTickets.api.service.ClienteService;
@@ -22,32 +23,42 @@ import br.com.RollTickets.api.service.ClienteService;
 @RestController
 @RequestMapping("/api/clientes")
 public class ClienteController {
-	
+
 	@Autowired
 	ClienteService clienteService;
-	
+
 	@PostMapping("/cadastrar")
 	public ResponseEntity<ClienteResponseDTO> store(@RequestBody ClienteCreateDTO clienteCreateDTO) {
 		return new ResponseEntity<>(clienteService.store(clienteCreateDTO), HttpStatus.CREATED);
+
 	}
-	
-	
+
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody ClienteLoginDTO clienteLoginDTO) {
+		try {
+			ClienteResponseDTO cliente = clienteService.login(clienteLoginDTO);
+			return new ResponseEntity<>(cliente, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+		}
+
+	}
+
 	@GetMapping
-	public ResponseEntity<List<ClienteResponseDTO>> list()
-	{
+	public ResponseEntity<List<ClienteResponseDTO>> list() {
 		return new ResponseEntity<>(clienteService.list(), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{cliente_id}")
 	public ResponseEntity<ClienteResponseDTO> show(@PathVariable long cliente_id) {
 		try {
 			return new ResponseEntity<>(clienteService.show(cliente_id), HttpStatus.OK);
-			
+
 		} catch (Exception e) {
 			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@PatchMapping
 	public ResponseEntity<ClienteResponseDTO> update(@RequestBody ClienteUpdateDTO clienteUpdateDTO) {
 		try {
@@ -56,7 +67,7 @@ public class ClienteController {
 			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@DeleteMapping("/{cliente_id}")
 	public ResponseEntity<String> destroy(@PathVariable long cliente_id) {
 		try {
