@@ -23,6 +23,19 @@ public class ClienteService {
 		clienteRepository.save(cliente);
 		return ClienteMapper.toDTO(cliente);
 	}
+
+
+	public ClienteResponseDTO login(ClienteLoginDTO clienteLoginDTO) {
+    Cliente cliente = clienteRepository.findByEmail(clienteLoginDTO.email())
+        .orElseThrow(() -> new RuntimeException("Email não encontrado"));
+
+    if (!cliente.getSenha().equals(clienteLoginDTO.senha())) {
+        throw new RuntimeException("Senha incorreta");
+    }
+
+    return ClienteMapper.toDTO(cliente);
+}
+
 	
 	public List<ClienteResponseDTO> list() {
 		return clienteRepository.findAll().stream().map(ClienteMapper::toDTO).toList();
