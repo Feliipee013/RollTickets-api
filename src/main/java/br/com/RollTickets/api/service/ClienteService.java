@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.RollTickets.api.dto.ClienteCreateDTO;
-import br.com.RollTickets.api.dto.ClienteLoginDTO;
 import br.com.RollTickets.api.dto.ClienteResponseDTO;
 import br.com.RollTickets.api.dto.ClienteUpdateDTO;
 import br.com.RollTickets.api.entity.Cliente;
@@ -25,6 +24,7 @@ public class ClienteService {
 		return ClienteMapper.toDTO(cliente);
 	}
 
+
 	public ClienteResponseDTO login(ClienteLoginDTO clienteLoginDTO) {
     Cliente cliente = clienteRepository.findByEmail(clienteLoginDTO.email())
         .orElseThrow(() -> new RuntimeException("Email não encontrado"));
@@ -35,6 +35,7 @@ public class ClienteService {
 
     return ClienteMapper.toDTO(cliente);
 }
+
 	
 	public List<ClienteResponseDTO> list() {
 		return clienteRepository.findAll().stream().map(ClienteMapper::toDTO).toList();
