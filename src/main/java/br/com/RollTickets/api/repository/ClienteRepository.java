@@ -8,6 +8,4 @@ import br.com.RollTickets.api.entity.Cliente;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    
-
 }
