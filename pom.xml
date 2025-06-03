@@ -73,6 +73,10 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-mysql</artifactId>
 		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -113,7 +117,7 @@
 				<configuration>
 					<url>jdbc:mysql://localhost:3306/rolltickets</url>
 					<user>root</user> <!--Mudar para o usuario sql de vcs-->
-					<password>1234</password><!--colocar a senha do sql de vcs se tiver-->
+					<password></password><!--colocar a senha do sql de vcs se tiver-->
 					<cleanDisabled>false</cleanDisabled>
 				</configuration>
 			</plugin>
