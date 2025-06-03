@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.RollTickets.api.dto.ClienteCreateDTO;
+import br.com.RollTickets.api.dto.ClienteLoginDTO;
 import br.com.RollTickets.api.dto.ClienteResponseDTO;
 import br.com.RollTickets.api.dto.ClienteUpdateDTO;
 import br.com.RollTickets.api.entity.Cliente;
-import br.com.RollTickets.api.dto.ClienteLoginDTO;
 import br.com.RollTickets.api.mapper.ClienteMapper;
 import br.com.RollTickets.api.repository.ClienteRepository;
 

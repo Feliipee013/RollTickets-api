@@ -4,7 +4,6 @@ CREATE TABLE filmes(
     sinopse TEXT,
     duracao INT NOT NULL,
     classificacao VARCHAR(10),
-    genero VARCHAR(50),
     image_url VARCHAR(255),
     formato ENUM('DOIS_D', 'TRES_D') NOT NULL
 );
