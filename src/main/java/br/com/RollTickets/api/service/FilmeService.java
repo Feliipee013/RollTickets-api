@@ -45,7 +45,6 @@ public class FilmeService {
         filme.setSinopse(dto.sinopse());
         filme.setDuracao(dto.duracao());
         filme.setClassificacao(dto.classificacao());
-        filme.setGenero(dto.genero());
         filme.setImageUrl(dto.imageUrl());
         filme.setFormato(dto.formato());
 
