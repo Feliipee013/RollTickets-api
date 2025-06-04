@@ -7,5 +7,6 @@ public record FilmeCreateDTO (
 		    int duracao,
 		    String classificacao,
 		    String imageUrl,
-		    Formato formato
+		    Formato formato,
+			Double avaliacao
 ){}
