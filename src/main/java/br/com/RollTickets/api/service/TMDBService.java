@@ -37,8 +37,9 @@ public class TMDBService {
             String classificacao = "16"; // default, pois TMDB não fornece diretamente
             String imageUrl = "https://image.tmdb.org/t/p/w500" + node.get("poster_path").asText();
             Formato formato = Formato.DOIS_D;
-
-            Filme filme = new Filme(titulo, sinopse, duracao, classificacao, imageUrl, formato);
+            Double avaliacao = node.get("vote_average").asDouble();
+                
+            Filme filme = new Filme(titulo, sinopse, duracao, classificacao, imageUrl, formato,avaliacao);
             if (!filmeRepository.existsByTitulo(titulo)) {
                 filmeRepository.save(filme);
             }
