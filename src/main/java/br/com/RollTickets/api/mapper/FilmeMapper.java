@@ -12,7 +12,8 @@ public class FilmeMapper {
 	            filme.getDuracao(),
 	            filme.getClassificacao(),
 	            filme.getImageUrl(),
-	            filme.getFormato()
+	            filme.getFormato(),
+				filme.getAvaliacao()
 	        );
 	    }
 
@@ -23,7 +24,8 @@ public class FilmeMapper {
 	            dto.duracao(),
 	            dto.classificacao(),
 	            dto.imageUrl(),
-	            dto.formato()
+	            dto.formato(),
+				dto.avaliacao()
 	        );
 	    }
 }
