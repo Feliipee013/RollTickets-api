@@ -47,6 +47,7 @@ public class FilmeService {
         filme.setClassificacao(dto.classificacao());
         filme.setImageUrl(dto.imageUrl());
         filme.setFormato(dto.formato());
+        filme.setAvaliacao(dto.avalicao());
 
         return FilmeMapper.toDTO(filmeRepository.save(filme));
     }

@@ -22,19 +22,21 @@ public class Filme {
     private int duracao;
     private String classificacao;
     private String imageUrl;
+	private Double avaliacao;
 
     @Enumerated(EnumType.STRING)
     private Formato formato;
 
     public Filme() {}
 
-    public Filme(String titulo, String sinopse, int duracao, String classificacao, String imageUrl, Formato formato) {
+    public Filme(String titulo, String sinopse, int duracao, String classificacao, String imageUrl, Formato formato, Double avaliacao) {
         this.titulo = titulo;
         this.sinopse = sinopse;
         this.duracao = duracao;
         this.classificacao = classificacao;
         this.imageUrl = imageUrl;
         this.formato = formato;
+		this.avaliacao = avaliacao;
     }
 
 	public long getId() {
@@ -91,6 +93,14 @@ public class Filme {
 
 	public void setFormato(Formato formato) {
 		this.formato = formato;
+	}
+
+	public Double getAvaliacao() {
+		return avaliacao;
+	}
+
+	public void setAvaliacao(Double avaliacao) {
+		this.avaliacao = avaliacao;
 	}
 
     
