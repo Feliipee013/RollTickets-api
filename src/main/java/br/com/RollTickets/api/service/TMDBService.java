@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 import br.com.RollTickets.api.entity.Filme;
 import br.com.RollTickets.api.enums.Formato;
 import br.com.RollTickets.api.repository.FilmeRepository;
-
 
 @Service
 public class TMDBService {
@@ -39,7 +39,15 @@ public class TMDBService {
             Formato formato = Formato.DOIS_D;
 
             Filme filme = new Filme(titulo, sinopse, duracao, classificacao, imageUrl, formato);
-            filmeRepository.save(filme);
+            if (!filmeRepository.existsByTitulo(titulo)) {
+                filmeRepository.save(filme);
+            }
         }
+    }
+
+    @Scheduled(cron = "0 * * * * ?") // A cada minuto
+    public void importarFilmesPopularesAgendado() {
+        System.out.println("Realizando importação automática dos filmes do TMDB...");
+        importarFilmesPopulares();
     }
 }

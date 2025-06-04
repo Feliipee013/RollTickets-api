@@ -7,4 +7,5 @@ import br.com.RollTickets.api.entity.Filme;
 
 @Repository
 public interface FilmeRepository extends JpaRepository<Filme, Long> {
+    boolean existsByTitulo(String titulo); // Para olhar se esse título ja existe
 }
