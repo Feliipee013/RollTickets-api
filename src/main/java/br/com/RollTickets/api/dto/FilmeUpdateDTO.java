@@ -8,6 +8,7 @@ public record FilmeUpdateDTO (
 	    int duracao,
 	    String classificacao,
 	    String imageUrl,
-	    Formato formato
+	    Formato formato,
+		Double avalicao
 ){}
 

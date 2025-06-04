@@ -8,5 +8,6 @@ public record FilmeResponseDTO (
 	    int duracao,
 	    String classificacao,
 	    String imageUrl,
-	    Formato formato
+	    Formato formato,
+		Double avaliacao
 ){}
