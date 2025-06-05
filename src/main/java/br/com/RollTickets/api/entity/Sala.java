@@ -19,6 +19,8 @@ public class Sala {
 
     private long capacidade;
 
+    
+
     public Sala() {
     }
 
