@@ -46,7 +46,7 @@ public class TMDBService {
         }
     }
 
-    @Scheduled(cron = "0 * * * * ?") // A cada minuto
+    @Scheduled(cron = "0 * * * * ?")
     public void importarFilmesPopularesAgendado() {
         System.out.println("Realizando importação automática dos filmes do TMDB...");
         importarFilmesPopulares();
