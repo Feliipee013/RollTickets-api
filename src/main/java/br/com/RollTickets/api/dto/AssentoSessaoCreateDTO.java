@@ -1,10 +1,7 @@
 package br.com.RollTickets.api.dto;
 
-import br.com.RollTickets.api.entity.Assento;
-import br.com.RollTickets.api.entity.Sessao;
 
 public record AssentoSessaoCreateDTO(
-    Assento assento,
-    Sessao sessao,
-    boolean reservado
+    Long assento, //Tive que trocar porque era mais simples só pegar um id do que o objeto inteiro
+    Long sessao//Tive que trocar porque era mais simples só pegar um id do que o objeto inteiro
 ) {}
