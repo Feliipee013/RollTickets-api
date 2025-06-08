@@ -24,9 +24,9 @@ public class AssentoSessaoController {
         return new ResponseEntity<>(assentoSessaoService.store(assentoSessaoCreateDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<List<AssentoSessaoResponseDTO>> list() {
-        return new ResponseEntity<>(assentoSessaoService.list(), HttpStatus.OK);
+    @GetMapping("/sessoes/{idSessao}/assentos") // Serve para listar os assentos de uma sessão em específica
+    public ResponseEntity<List<AssentoSessaoResponseDTO>> listBySessao(@PathVariable long idSessao) {
+        return new ResponseEntity<>(assentoSessaoService.listBySessao(idSessao), HttpStatus.OK);
     }
 
     @GetMapping("/{id_assentoSessao}")
@@ -57,5 +57,3 @@ public class AssentoSessaoController {
         }
     }
 }
-
-
