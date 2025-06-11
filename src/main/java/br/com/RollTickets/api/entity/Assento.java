@@ -23,15 +23,21 @@ public class Assento {
     @JoinColumn(name = "sala_id")
     private Sala sala;
 
+
+    @ManyToOne
+    @JoinColumn(name = "sessao_id")
+    private Sessao sessao;
+
     public Assento() {
 
     }
 
-    public Assento(long id, String fileira, String numero, Sala sala) {
+    public Assento(long id, String fileira, String numero, Sala sala,Sessao sessao) {
         this.id = id;
         this.fileira = fileira;
         this.numero = numero;
         this.sala = sala;
+        this.sessao = sessao;
     }
 
     public long getId() {
@@ -70,6 +76,15 @@ public class Assento {
 	@Override
     public String toString() {
         return "Assento [id=" + id + ",fileira=" + fileira + ", numero=" + numero + ", sala =" + sala + "]";
+    }
+
+    
+    public Sessao getSessao() {
+        return sessao;
+    }
+
+    public void setSessao(Sessao sessao) {
+        this.sessao = sessao;
     }
 }
 
