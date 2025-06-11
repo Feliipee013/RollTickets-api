@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.RollTickets.api.dto.AssentoSessaoResponseDTO;
 import br.com.RollTickets.api.dto.SessaoCreateDTO;
 import br.com.RollTickets.api.dto.SessaoResponseDTO;
 import br.com.RollTickets.api.dto.SessaoUpdateDTO;
@@ -37,15 +38,15 @@ public class SessaoController {
 		return new ResponseEntity<>(sessaoService.list(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/{sessao_id}")
-	public ResponseEntity<SessaoResponseDTO> show(@PathVariable long sessao_id) {
-		try {
-			return new ResponseEntity<>(sessaoService.show(sessao_id), HttpStatus.OK);
-			
-		} catch (Exception e) {
-			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
-		}
-	}
+//	@GetMapping("/{sessao_id}")
+//	public ResponseEntity<SessaoResponseDTO> show(@PathVariable long sessao_id) {
+//		try {
+//			return new ResponseEntity<>(sessaoService.show(sessao_id), HttpStatus.OK);
+//			
+//		} catch (Exception e) {
+//			return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+//		}
+//	}
 	
 	@PatchMapping
 	public ResponseEntity<SessaoResponseDTO> update(@RequestBody SessaoUpdateDTO sessaoUpdateDTO) {
@@ -66,4 +67,8 @@ public class SessaoController {
 		}
 	}
 
+	@GetMapping("/{idFilme}")
+    public ResponseEntity<List<SessaoResponseDTO>> listBySessao(@PathVariable long idFilme) {
+        return new ResponseEntity<>(sessaoService.listByFilme(idFilme), HttpStatus.OK);
+    }
 }
