@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.RollTickets.api.dto.AssentoSessaoResponseDTO;
 import br.com.RollTickets.api.dto.SessaoCreateDTO;
 import br.com.RollTickets.api.dto.SessaoResponseDTO;
 import br.com.RollTickets.api.dto.SessaoUpdateDTO;
