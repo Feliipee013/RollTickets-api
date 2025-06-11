@@ -9,6 +9,7 @@ import br.com.RollTickets.api.dto.SessaoCreateDTO;
 import br.com.RollTickets.api.dto.SessaoResponseDTO;
 import br.com.RollTickets.api.dto.SessaoUpdateDTO;
 import br.com.RollTickets.api.entity.Sessao;
+import br.com.RollTickets.api.mapper.AssentoSessaoMapper;
 import br.com.RollTickets.api.mapper.SessaoMapper;
 import br.com.RollTickets.api.repository.SessaoRepository;
 
@@ -47,5 +48,12 @@ public class SessaoService {
 	public void destroy(long id) {
 		Sessao sessao= sessaoRepository.findById(id).orElseThrow(()->new RuntimeException("Sessao não encontrado para deleção"));
 		sessaoRepository.delete(sessao);
+	}
+	
+	public List<SessaoResponseDTO> listByFilme(Long id) { 
+		return sessaoRepository.findByFilmeId(id)
+                .stream()
+                .map(SessaoMapper::toDTO)
+                .toList();
 	}
 }
