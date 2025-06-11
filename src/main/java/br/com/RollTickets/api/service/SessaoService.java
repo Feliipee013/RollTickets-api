@@ -9,7 +9,7 @@ import br.com.RollTickets.api.dto.SessaoCreateDTO;
 import br.com.RollTickets.api.dto.SessaoResponseDTO;
 import br.com.RollTickets.api.dto.SessaoUpdateDTO;
 import br.com.RollTickets.api.entity.Sessao;
-import br.com.RollTickets.api.mapper.AssentoSessaoMapper;
+
 import br.com.RollTickets.api.mapper.SessaoMapper;
 import br.com.RollTickets.api.repository.SessaoRepository;
 
