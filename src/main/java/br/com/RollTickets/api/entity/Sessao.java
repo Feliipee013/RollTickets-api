@@ -22,10 +22,6 @@ public class Sessao {
     @JoinColumn(name = "filme_id")
     private Filme filme;
 
-    @OneToOne
-    @JoinColumn(name = "sala_id")
-    private Sala sala;
-
     LocalDateTime horario;
 
     int quantidade_ingressos_disponiveis;
@@ -33,9 +29,8 @@ public class Sessao {
     public Sessao() {
     }
 
-    public Sessao(Filme filme, Sala sala, LocalDateTime horario, int quantidade_ingressos_disponiveis) {
+    public Sessao(Filme filme, LocalDateTime horario, int quantidade_ingressos_disponiveis) {
         this.filme = filme;
-        this.sala = sala;
         this.horario = horario;
         this.quantidade_ingressos_disponiveis = quantidade_ingressos_disponiveis;
     }
@@ -56,13 +51,6 @@ public class Sessao {
         this.filme = filme;
     }
 
-    public Sala getSala() {
-        return sala;
-    }
-
-    public void setSala(Sala sala) {
-        this.sala = sala;
-    }
 
     public LocalDateTime getHorario() {
         return horario;
