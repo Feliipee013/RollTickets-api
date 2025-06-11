@@ -44,6 +44,7 @@ public class AssentoService {
         assento.setFileira(assentoUpdateDTO.fileira());
         assento.setNumero(assentoUpdateDTO.numero());
         assento.setSala(assentoUpdateDTO.sala());
+        assento.setSessao(assentoUpdateDTO.sessao());
 
         return AssentoMapper.toDTO(assentoRepository.save(assento));
     }

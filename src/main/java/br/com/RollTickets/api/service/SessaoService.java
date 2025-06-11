@@ -38,7 +38,6 @@ public class SessaoService {
 	public SessaoResponseDTO update(SessaoUpdateDTO sessaoUpdateDTO) {
 		Sessao sessao = sessaoRepository.findById(sessaoUpdateDTO.id()).orElseThrow(()->new RuntimeException("Sessao não encontrado para alteração"));
         sessao.setFilme(sessaoUpdateDTO.filme());
-        sessao.setSala(sessaoUpdateDTO.sala());
         sessao.setQuantidade_ingressos_disponiveis(sessaoUpdateDTO.quantidade_ingressos_disponiveis());
         sessao.setHorario(sessaoUpdateDTO.horario());
 
