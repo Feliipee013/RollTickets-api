@@ -4,6 +4,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 import java.time.LocalDateTime;
@@ -21,18 +22,21 @@ public class Sessao {
     @OneToOne
     @JoinColumn(name = "filme_id")
     private Filme filme;
+    
+    @ManyToOne
+    @JoinColumn(name = "sala_id")
+    private Sala sala;
 
     LocalDateTime horario;
 
-    int quantidade_ingressos_disponiveis;
 
     public Sessao() {
     }
 
-    public Sessao(Filme filme, LocalDateTime horario, int quantidade_ingressos_disponiveis) {
+    public Sessao(Filme filme, Sala sala, LocalDateTime horario) {
         this.filme = filme;
+        this.sala = sala;
         this.horario = horario;
-        this.quantidade_ingressos_disponiveis = quantidade_ingressos_disponiveis;
     }
 
     public long getId() {
@@ -60,12 +64,13 @@ public class Sessao {
         this.horario = horario;
     }
 
-    public int getQuantidade_ingressos_disponiveis() {
-        return quantidade_ingressos_disponiveis;
-    }
+	public Sala getSala() {
+		return sala;
+	}
 
-    public void setQuantidade_ingressos_disponiveis(int quantidade_ingressos_disponiveis) {
-        this.quantidade_ingressos_disponiveis = quantidade_ingressos_disponiveis;
-    }
+	public void setSala(Sala sala) {
+		this.sala = sala;
+	}
 
+    
 }
