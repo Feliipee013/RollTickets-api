@@ -54,6 +54,12 @@ public class AssentoController {
         }
     }
 
+    @GetMapping("/reservados/{sessaoId}") //Serve para conseguir listar os assentos disponíveis no front
+    public ResponseEntity<List<AssentoResponseDTO>> getAssentosReservados(@PathVariable Long sessaoId) {
+        List<AssentoResponseDTO> reservados = assentoService.listBySessao(sessaoId);
+        return new ResponseEntity<>(reservados, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id_assento}")
     public ResponseEntity<String> destroy(@PathVariable long id_assento) {
         try {

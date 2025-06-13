@@ -19,6 +19,17 @@ public class AssentoService {
     private AssentoRepository assentoRepository;
 
     public AssentoResponseDTO store(AssentoCreateDTO assentoCreateDTO) {
+
+        boolean existe = assentoRepository.existsByNumeroAndFileiraAndSessaoId(
+                assentoCreateDTO.numero(),
+                assentoCreateDTO.fileira(),
+                assentoCreateDTO.sessao().getId() 
+        );
+
+        if (existe) {
+            throw new RuntimeException("Assento já reservado para essa sessão.");
+        }
+
         Assento assento = AssentoMapper.toEntity(assentoCreateDTO);
         assentoRepository.save(assento);
         return AssentoMapper.toDTO(assento);
@@ -47,6 +58,18 @@ public class AssentoService {
         assento.setSessao(assentoUpdateDTO.sessao());
 
         return AssentoMapper.toDTO(assentoRepository.save(assento));
+    }
+
+    public List<AssentoResponseDTO> listBySessao(Long id) {
+        List<Assento> assentos = assentoRepository.findBySessaoId(id);
+        return assentos.stream()
+                .map(assento -> new AssentoResponseDTO(
+                        assento.getId(),
+                        assento.getFileira(),
+                        assento.getNumero(),
+                        assento.getSala(),
+                        assento.getSessao()))
+                .toList();
     }
 
     public void destroy(long id) {
