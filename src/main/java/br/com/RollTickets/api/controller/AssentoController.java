@@ -27,8 +27,9 @@ public class AssentoController {
     private AssentoService assentoService;
 
     @PostMapping("/reservar")
-    public ResponseEntity<AssentoResponseDTO> store(@RequestBody AssentoCreateDTO assentoCreateDTO) {
-        return new ResponseEntity<>(assentoService.store(assentoCreateDTO), HttpStatus.CREATED);
+    public ResponseEntity<List<AssentoResponseDTO>> store(@RequestBody List<AssentoCreateDTO> assentoCreateDTO) {
+        List<AssentoResponseDTO> reservados = assentoService.storeAll(assentoCreateDTO);
+        return new ResponseEntity<>(reservados, HttpStatus.CREATED);
     }
 
     @GetMapping
