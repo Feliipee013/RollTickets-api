@@ -1,5 +1,6 @@
 package br.com.RollTickets.api.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,15 @@ public class AssentoService {
                 .orElseThrow(() -> new RuntimeException("Assento com id " + id + " não encontrado"));
         return AssentoMapper.toDTO(assento);
     }
+
+    public List<AssentoResponseDTO> storeAll(List<AssentoCreateDTO> assentoCreateDTO) {
+    List<AssentoResponseDTO> reservados = new ArrayList<>();
+    for (AssentoCreateDTO dto : assentoCreateDTO) {
+        reservados.add(this.store(dto));
+    }
+    return reservados;
+}
+
 
     public AssentoResponseDTO update(AssentoUpdateDTO assentoUpdateDTO) {
         Assento assento = assentoRepository.findById(assentoUpdateDTO.id())
