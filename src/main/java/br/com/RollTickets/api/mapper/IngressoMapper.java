@@ -3,6 +3,8 @@ package br.com.RollTickets.api.mapper;
 import br.com.RollTickets.api.dto.IngressoCreateDTO;
 import br.com.RollTickets.api.dto.IngressoResponseDTO;
 import br.com.RollTickets.api.dto.IngressoUpdateDTO;
+import br.com.RollTickets.api.entity.Assento;
+import br.com.RollTickets.api.entity.Cliente;
 import br.com.RollTickets.api.entity.Ingresso;
 import br.com.RollTickets.api.entity.Ingresso2D;
 import br.com.RollTickets.api.entity.Ingresso3D;
@@ -19,25 +21,25 @@ public class IngressoMapper{
 		}
 	}
 	
-	public static Ingresso toEntity(IngressoCreateDTO dto) {
-        if (dto.tipo().equalsIgnoreCase("DOIS_D")) {
+	public static Ingresso toEntity(IngressoCreateDTO ingressoCreateDTO, br.com.RollTickets.api.entity.Sessao sessao, Assento assento, Cliente cliente) { //Tive qye mandar isso, porque agora o DTO n tem mais os objetos, apenas os IDs
+        if (ingressoCreateDTO.tipo().equalsIgnoreCase("DOIS_D")) {
             Ingresso2D ingresso2D = new Ingresso2D();
-            ingresso2D.setPreco(dto.preco());
-            ingresso2D.setSessao(dto.sessao());
-            ingresso2D.setAssento(dto.assento());
-            ingresso2D.setCliente(dto.cliente());
+            ingresso2D.setPreco(ingressoCreateDTO.preco());
+            ingresso2D.setSessao(sessao);
+            ingresso2D.setAssento(assento);
+            ingresso2D.setCliente(cliente);
             return ingresso2D;
-        } else if (dto.tipo().equalsIgnoreCase("TRES_D")) {
+        } else if (ingressoCreateDTO.tipo().equalsIgnoreCase("TRES_D")) {
             Ingresso3D ingresso3D = new Ingresso3D();
-            ingresso3D.setPreco(dto.preco());
-            ingresso3D.setSessao(dto.sessao());
-            ingresso3D.setAssento(dto.assento());
-            ingresso3D.setCliente(dto.cliente());
-            ingresso3D.setIncluiOculos(dto.incluiOculos() != null ? dto.incluiOculos() : false);
-            ingresso3D.setTaxaExtra3D(dto.taxaExtra3D() != null ? dto.taxaExtra3D() : 0.0);
+            ingresso3D.setPreco(ingressoCreateDTO.preco());
+            ingresso3D.setSessao(sessao);
+            ingresso3D.setAssento(assento);
+            ingresso3D.setCliente(cliente);
+            ingresso3D.setIncluiOculos(ingressoCreateDTO.incluiOculos() != null ? ingressoCreateDTO.incluiOculos() : false);
+            ingresso3D.setTaxaExtra3D(ingressoCreateDTO.taxaExtra3D() != null ? ingressoCreateDTO.taxaExtra3D() : 0.0);
             return ingresso3D;
         }
-        throw new IllegalArgumentException("Tipo de ingresso inválido: " + dto.tipo());
+        throw new IllegalArgumentException("Tipo de ingresso inválido: " + ingressoCreateDTO.tipo());
     }
 	
 	public static Ingresso updateEntity(IngressoUpdateDTO dto, Ingresso existente) {
