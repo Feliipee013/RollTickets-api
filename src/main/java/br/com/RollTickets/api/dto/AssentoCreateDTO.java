@@ -1,11 +1,9 @@
 package br.com.RollTickets.api.dto;
 
-import br.com.RollTickets.api.entity.Sala;
-import br.com.RollTickets.api.entity.Sessao;
 
 public record AssentoCreateDTO (
     String fileira,
     String numero,
-    Sala sala,
-    Sessao sessao
+    Long sessaoId, //Troquei pelo long para ficar mais fácil de manipular, pois antes era passado o objeto então ficaria muito extenso
+    Long salaId
 ){}

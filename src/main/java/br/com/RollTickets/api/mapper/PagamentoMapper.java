@@ -7,13 +7,13 @@ import br.com.RollTickets.api.entity.Pagamento;
 public class PagamentoMapper {
     
     public static PagamentoResponseDTO toDTO(Pagamento pagamento) {
-		PagamentoResponseDTO pagamentoResponseDTO = new PagamentoResponseDTO(pagamento.getId(),pagamento.getIngresso(),pagamento.getMetodoPagamento(),pagamento.getStatus(),pagamento.getDataHoraPagamento());
+		PagamentoResponseDTO pagamentoResponseDTO = new PagamentoResponseDTO(pagamento.getId(),pagamento.getCompra(),pagamento.getMetodoPagamento(),pagamento.getStatus(),pagamento.getDataHoraPagamento());
 		return pagamentoResponseDTO;
 	}
 
     public static Pagamento toEntity(PagamentoCreateDTO pagamentoCreateDTO){
         Pagamento pagamento = new Pagamento();
-        pagamento.setIngresso(pagamentoCreateDTO.ingresso());
+        pagamento.setIngresso(pagamentoCreateDTO.compra());
         pagamento.setMetodoPagamento(pagamentoCreateDTO.metodoPagamento());
         pagamento.setStatus(pagamentoCreateDTO.status());
 

@@ -19,44 +19,45 @@ public class AssentoService {
     @Autowired
     private AssentoRepository assentoRepository;
 
+    @Autowired
+    private AssentoMapper assentoMapper;
+
     public AssentoResponseDTO store(AssentoCreateDTO assentoCreateDTO) {
 
         boolean existe = assentoRepository.existsByNumeroAndFileiraAndSessaoId(
                 assentoCreateDTO.numero(),
                 assentoCreateDTO.fileira(),
-                assentoCreateDTO.sessao().getId() 
-        );
+                assentoCreateDTO.sessaoId());
 
         if (existe) {
             throw new RuntimeException("Assento já reservado para essa sessão.");
         }
 
-        Assento assento = AssentoMapper.toEntity(assentoCreateDTO);
+        Assento assento = assentoMapper.toEntity(assentoCreateDTO);
         assentoRepository.save(assento);
-        return AssentoMapper.toDTO(assento);
+        return assentoMapper.toDTO(assento);
     }
 
     public List<AssentoResponseDTO> list() {
         return assentoRepository.findAll()
                 .stream()
-                .map(AssentoMapper::toDTO)
+                .map(assentoMapper::toDTO)
                 .toList();
     }
 
     public AssentoResponseDTO show(long id) {
         Assento assento = assentoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Assento com id " + id + " não encontrado"));
-        return AssentoMapper.toDTO(assento);
+        return assentoMapper.toDTO(assento);
     }
 
     public List<AssentoResponseDTO> storeAll(List<AssentoCreateDTO> assentoCreateDTO) {
-    List<AssentoResponseDTO> reservados = new ArrayList<>();
-    for (AssentoCreateDTO dto : assentoCreateDTO) {
-        reservados.add(this.store(dto));
+        List<AssentoResponseDTO> reservados = new ArrayList<>();
+        for (AssentoCreateDTO dto : assentoCreateDTO) {
+            reservados.add(this.store(dto));
+        }
+        return reservados;
     }
-    return reservados;
-}
-
 
     public AssentoResponseDTO update(AssentoUpdateDTO assentoUpdateDTO) {
         Assento assento = assentoRepository.findById(assentoUpdateDTO.id())
@@ -67,7 +68,7 @@ public class AssentoService {
         assento.setSala(assentoUpdateDTO.sala());
         assento.setSessao(assentoUpdateDTO.sessao());
 
-        return AssentoMapper.toDTO(assentoRepository.save(assento));
+        return assentoMapper.toDTO(assentoRepository.save(assento));
     }
 
     public List<AssentoResponseDTO> listBySessao(Long id) {
@@ -77,8 +78,8 @@ public class AssentoService {
                         assento.getId(),
                         assento.getFileira(),
                         assento.getNumero(),
-                        assento.getSala(),
-                        assento.getSessao()))
+                        assento.getSala().getId(),
+                        assento.getSessao().getId()))
                 .toList();
     }
 

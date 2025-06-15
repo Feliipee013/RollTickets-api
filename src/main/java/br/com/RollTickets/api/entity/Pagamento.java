@@ -14,38 +14,37 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.EnumType;
 
-
 @Entity
 @Table(name = "pagamentos")
 public class Pagamento {
 
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @OneToOne
-	@JoinColumn(name="ingresso_id")
-	private Ingresso ingresso;
+    @JoinColumn(name = "compra_id")
+    private Compra compra;
 
     @Enumerated(EnumType.STRING)
-	private metodoPagamento metodoPagamento;
+    private metodoPagamento metodoPagamento;
 
     @Enumerated(EnumType.STRING)
-	private status status;
+    private status status;
 
     LocalDateTime dataHoraPagamento;
 
-
-    public Pagamento(Ingresso ingresso, metodoPagamento metodoPagamento, status status, LocalDateTime dataHoraPagamento) {
-        this.ingresso = ingresso;
+    public Pagamento(Compra compra, metodoPagamento metodoPagamento, status status,
+            LocalDateTime dataHoraPagamento) {
+        this.compra = compra;
         this.metodoPagamento = metodoPagamento;
         this.status = status;
         this.dataHoraPagamento = dataHoraPagamento;
     }
 
     // Construtor vazio (necessário para JPA)
-    public Pagamento() {}
-
+    public Pagamento() {
+    }
 
     public long getId() {
         return id;
@@ -55,12 +54,12 @@ public class Pagamento {
         this.id = id;
     }
 
-    public Ingresso getIngresso() {
-        return ingresso;
+    public Compra getCompra() {
+        return compra;
     }
 
-    public void setIngresso(Ingresso ingresso) {
-        this.ingresso = ingresso;
+    public void setIngresso(Compra compra) {
+        this.compra = compra;
     }
 
     public metodoPagamento getMetodoPagamento() {

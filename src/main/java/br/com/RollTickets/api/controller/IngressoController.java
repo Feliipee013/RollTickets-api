@@ -38,6 +38,12 @@ public class IngressoController {
         }
     }
 
+    @GetMapping("/cliente/{clienteId}") //Serve para buscar os ingressos pelo id do cliente
+    public ResponseEntity<List<IngressoResponseDTO>> getIngressosPorCliente(@PathVariable Long clienteId) {
+        List<IngressoResponseDTO> ingressos = ingressoService.buscarIngressosPorCliente(clienteId);
+        return ResponseEntity.ok(ingressos);
+    }
+
     @PatchMapping
     public ResponseEntity<?> update(@RequestBody IngressoUpdateDTO dto) {
         try {

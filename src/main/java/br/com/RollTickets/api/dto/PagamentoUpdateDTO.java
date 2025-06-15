@@ -2,13 +2,14 @@ package br.com.RollTickets.api.dto;
 
 import java.time.LocalDateTime;
 
+import br.com.RollTickets.api.entity.Compra;
 import br.com.RollTickets.api.entity.Ingresso;
 import br.com.RollTickets.api.enums.metodoPagamento;
 import br.com.RollTickets.api.enums.status;
 
 public record PagamentoUpdateDTO( 
     long id,
-    Ingresso ingresso,
+    Compra compra,
     metodoPagamento metodoPagamento,
     status status,
     LocalDateTime dataHoraPagamento) {

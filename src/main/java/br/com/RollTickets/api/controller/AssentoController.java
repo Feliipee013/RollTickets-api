@@ -38,7 +38,7 @@ public class AssentoController {
     }
 
     @GetMapping("/{id_assento}")
-    public ResponseEntity<?> show(@PathVariable long id) {
+    public ResponseEntity<?> show(@PathVariable("id_assento") long id) {
         try {
             return new ResponseEntity<>(assentoService.show(id), HttpStatus.OK);
         } catch (Exception e) {
