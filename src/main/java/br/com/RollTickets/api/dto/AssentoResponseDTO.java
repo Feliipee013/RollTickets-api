@@ -1,14 +1,13 @@
 package br.com.RollTickets.api.dto;
 
-import br.com.RollTickets.api.entity.Sala;
-import br.com.RollTickets.api.entity.Sessao;
+
 
 public record AssentoResponseDTO (
     long id,
     String fileira,
     String numero,
-    Sala sala,
-    Sessao sessao
+    Long sala,  //Troquei pelo long para ficar mais fácil de manipular, pois antes era passado o objeto então ficaria muito extenso
+    Long sessao
 ){}
     
 
