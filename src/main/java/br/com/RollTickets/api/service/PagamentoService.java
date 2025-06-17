@@ -36,7 +36,7 @@ public class PagamentoService {
 	
 	public PagamentoResponseDTO update(PagamentoUpdateDTO pagamentoUpdateDTO) {
 		Pagamento pagamento = pagamentoRepository.findById(pagamentoUpdateDTO.id()).orElseThrow(()->new RuntimeException("Pagamento não encontrado para alteração"));
-		pagamento.setIngresso(pagamentoUpdateDTO.ingresso());
+		pagamento.setIngresso(pagamentoUpdateDTO.compra());
         pagamento.setMetodoPagamento(pagamentoUpdateDTO.metodoPagamento());
         pagamento.setStatus(pagamentoUpdateDTO.status());
         pagamento.setDataHoraPagamento(pagamentoUpdateDTO.dataHoraPagamento());
