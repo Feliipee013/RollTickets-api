@@ -21,11 +21,5 @@ public class CompraMapper {
 		return compraReponse;
 	}
 	
-	public static Compra toEntity(CompraCreateDTO compraCreateDTO) {
-		Compra compra = new Compra();
-		compra.setCliente(compraCreateDTO.cliente());
-		
-
-		return compra;
-	}
+	
 }

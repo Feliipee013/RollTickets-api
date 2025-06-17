@@ -14,7 +14,6 @@ public class Assento {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private long id;
     private String fileira;
     private String numero;
