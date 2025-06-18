@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.RollTickets.api.dto.PagamentoCreateDTO;
 import br.com.RollTickets.api.dto.PagamentoResponseDTO;
 import br.com.RollTickets.api.dto.PagamentoUpdateDTO;
+import br.com.RollTickets.api.entity.Compra;
+import br.com.RollTickets.api.entity.Pagamento;
+import br.com.RollTickets.api.enums.status;
+import br.com.RollTickets.api.repository.CompraRepository;
 import br.com.RollTickets.api.service.PagamentoService;
 
 @RestController
@@ -24,6 +29,9 @@ import br.com.RollTickets.api.service.PagamentoService;
 public class PagamentoController {
     @Autowired
 	PagamentoService pagamentoService;
+
+	@Autowired
+	CompraRepository compraRepository;
 	
 	@PostMapping("/realizar")
 	public ResponseEntity<PagamentoResponseDTO> store(@RequestBody PagamentoCreateDTO pagamentoCreateDTO) {
@@ -65,4 +73,21 @@ public class PagamentoController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
+
+	
+    @PutMapping("/{id}/aprovar")
+    public ResponseEntity<String> aprovarCompra(@PathVariable Long id) {
+        Compra compra = compraRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Compra não encontrada"));
+
+        Pagamento pagamento = compra.getPagamento();
+        if (pagamento == null) {
+            throw new RuntimeException("Compra sem pagamento associado");
+        }
+
+        pagamento.setStatus(status.PAGO);
+        compraRepository.save(compra);
+
+        return ResponseEntity.ok("Compra aprovada com sucesso");
+    }
 }
