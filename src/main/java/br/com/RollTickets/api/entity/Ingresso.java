@@ -33,17 +33,22 @@ public class Ingresso {
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
+
+	@ManyToOne
+	@JoinColumn(name = "compra_id")
+	private Compra compra;
 	
 	public Ingresso() {
 		
 	}
 
-	public Ingresso(long id, double preco, Sessao sessao, Assento assento, Cliente cliente) {
+	public Ingresso(long id, double preco, Sessao sessao, Assento assento, Cliente cliente,Compra compra) {
 		this.id = id;
 		this.preco = preco;
 		this.sessao = sessao;
 		this.assento = assento;
 		this.cliente = cliente;
+		this.compra = compra;
 	}
 
 	public long getId() {
@@ -84,6 +89,14 @@ public class Ingresso {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public Compra getCompra() {
+		return compra;
+	}
+
+	public void setCompra(Compra compra) {
+		this.compra = compra;
 	}
 	
 	
