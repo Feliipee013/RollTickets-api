@@ -1,17 +1,22 @@
 package br.com.RollTickets.api.service;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.RollTickets.api.dto.AssentoCreateDTO;
 import br.com.RollTickets.api.dto.AssentoResponseDTO;
+import br.com.RollTickets.api.dto.AssentoStatusResponseDTO;
 import br.com.RollTickets.api.dto.AssentoUpdateDTO;
 import br.com.RollTickets.api.entity.Assento;
+import br.com.RollTickets.api.entity.Ingresso;
+import br.com.RollTickets.api.entity.Pagamento;
+import br.com.RollTickets.api.entity.Sessao;
 import br.com.RollTickets.api.mapper.AssentoMapper;
 import br.com.RollTickets.api.repository.AssentoRepository;
+import br.com.RollTickets.api.repository.IngressoRepository;
 
 @Service
 public class AssentoService {
@@ -21,6 +26,9 @@ public class AssentoService {
 
     @Autowired
     private AssentoMapper assentoMapper;
+
+    @Autowired
+    private IngressoRepository ingressoRepository;
 
     public AssentoResponseDTO store(AssentoCreateDTO assentoCreateDTO) {
 
@@ -88,4 +96,38 @@ public class AssentoService {
                 .orElseThrow(() -> new RuntimeException("Assento não encontrado para deleção"));
         assentoRepository.delete(assento);
     }
+
+    public List<AssentoStatusResponseDTO> listBySessaoComStatus(Long sessaoId) {
+    List<Assento> assentos = assentoRepository.findBySessaoId(sessaoId);
+    
+    // Aqui você deve buscar a sessão para passar nos métodos do repositório ingresso
+    Sessao sessao = new Sessao();
+    sessao.setId(sessaoId);
+
+    List<AssentoStatusResponseDTO> resultado = new ArrayList<>();
+
+    for (Assento assento : assentos) {
+        Optional<Ingresso> ingressoOpt = ingressoRepository.findBySessaoAndAssento(sessao, assento);
+        
+        String statusPagamento = "LIVRE"; // Default: assento livre (sem ingresso)
+        
+        if (ingressoOpt.isPresent()) {
+            Ingresso ingresso = ingressoOpt.get();
+            Pagamento pagamento = ingresso.getCompra() != null ? ingresso.getCompra().getPagamento() : null;
+            if (pagamento != null) {
+                statusPagamento = pagamento.getStatus().name(); // converte enum para string
+            }
+        }
+
+        resultado.add(new AssentoStatusResponseDTO(
+            assento.getId(),
+            assento.getFileira(),
+            assento.getNumero(),
+            assento.getSala().getId(),
+            assento.getSessao().getId(),
+            statusPagamento
+        ));
+    }
+    return resultado;
+}
 }
