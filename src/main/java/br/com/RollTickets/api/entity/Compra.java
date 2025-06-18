@@ -2,6 +2,8 @@ package br.com.RollTickets.api.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,28 +23,24 @@ public class Compra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "data_hora")
     private LocalDateTime dataHora;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @OneToMany
-	@JoinColumn(name = "ingresso_id")
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL)
     private List<Ingresso> ingressos = new ArrayList<>();
 
-    @OneToOne
-	@JoinColumn(name = "pagamento_id")
-    private Pagamento pagamento;
 
     public Compra(){}
 
-    public Compra(Long id, LocalDateTime dataHora, Cliente cliente, List<Ingresso> ingressos, Pagamento pagamento) {
+    public Compra(Long id, LocalDateTime dataHora, Cliente cliente, List<Ingresso> ingressos) {
         this.id = id;
         this.dataHora = dataHora;
         this.cliente = cliente;
         this.ingressos = ingressos;
-        this.pagamento = pagamento;
     }
 
     public Long getId() {
@@ -75,17 +73,7 @@ public class Compra {
 
     public void setIngressos(List<Ingresso> ingressos) {
         this.ingressos = ingressos;
-    }
-
-    public Pagamento getPagamento() {
-        return pagamento;
-    }
-
-    public void setPagamento(Pagamento pagamento) {
-        this.pagamento = pagamento;
-    }
-
-    
+    }   
 
     
 }

@@ -7,7 +7,7 @@ import br.com.RollTickets.api.entity.Compra;
 @Repository
 public interface CompraRepository extends JpaRepository<Compra, Long> {
 
-    Optional<Compra> findByEmail(String email);
+    //Optional<Compra> findByEmail(String email);
 
 
 }

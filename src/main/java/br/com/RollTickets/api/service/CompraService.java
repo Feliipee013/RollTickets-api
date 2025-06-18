@@ -45,15 +45,17 @@ public class CompraService {
         .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
     compra.setCliente(cliente);
 
-    List<Ingresso> ingressos = compraCreateDTO.ingresso().stream()
-        .map(id -> ingressoRepository.findById(id)
-             .orElseThrow(() -> new RuntimeException("Ingresso não encontrado: " + id)))
-        .toList();
+    List<Ingresso> ingressos = compraCreateDTO.ingressosIds().stream()
+    	    .map(id -> ingressoRepository.findById(id)
+    	        .orElseThrow(() -> new RuntimeException("Ingresso não encontrado: " + id)))
+    	    .toList();
+    compra.setIngressos(ingressos);
+    
+    for (Ingresso ingresso : ingressos) {
+        ingresso.setCompra(compra);
+    }
     compra.setIngressos(ingressos);
 
-    Pagamento pagamento = pagamentoRepository.findById(compraCreateDTO.pagamentoId())
-        .orElseThrow(() -> new RuntimeException("Pagamento não encontrado"));
-    compra.setPagamento(pagamento);
 
     compra.setDataHora(LocalDateTime.now());
 
@@ -83,8 +85,6 @@ public class CompraService {
             .orElseThrow(() -> new RuntimeException("Ingresso não encontrado: " + id)))
         .toList();
     compra.setIngressos(ingressos);
-
-    compra.setPagamento(compraUpdateDTO.pagamento()); // Aqui você pode ajustar para buscar a entidade pagamento se dto.pagamento() for só um id
 
     return CompraMapper.toDTO(compraRepository.save(compra));
 	}
