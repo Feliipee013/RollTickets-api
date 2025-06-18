@@ -6,5 +6,5 @@ import br.com.RollTickets.api.entity.Cliente;
 import java.util.*;
 import br.com.RollTickets.api.entity.Pagamento;
 
-public record CompraUpdateDTO(Long id,LocalDateTime dataHora, Cliente cliente, List<Long> ingresso ,Pagamento pagamento) {
+public record CompraUpdateDTO(Long id,LocalDateTime dataHora, Cliente cliente, List<Long> ingresso) {
 } 

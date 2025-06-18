@@ -31,6 +31,7 @@ public class Pagamento {
 
     @Enumerated(EnumType.STRING)
     private status status;
+    
 
     LocalDateTime dataHoraPagamento;
 

@@ -33,7 +33,7 @@ public class Ingresso {
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "compra_id")
 	private Compra compra;
@@ -42,7 +42,7 @@ public class Ingresso {
 		
 	}
 
-	public Ingresso(long id, double preco, Sessao sessao, Assento assento, Cliente cliente,Compra compra) {
+	public Ingresso(long id, double preco, Sessao sessao, Assento assento, Cliente cliente, Compra compra) {
 		this.id = id;
 		this.preco = preco;
 		this.sessao = sessao;

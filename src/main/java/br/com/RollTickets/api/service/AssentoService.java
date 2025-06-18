@@ -97,37 +97,5 @@ public class AssentoService {
         assentoRepository.delete(assento);
     }
 
-    public List<AssentoStatusResponseDTO> listBySessaoComStatus(Long sessaoId) {
-    List<Assento> assentos = assentoRepository.findBySessaoId(sessaoId);
-    
-    // Aqui você deve buscar a sessão para passar nos métodos do repositório ingresso
-    Sessao sessao = new Sessao();
-    sessao.setId(sessaoId);
-
-    List<AssentoStatusResponseDTO> resultado = new ArrayList<>();
-
-    for (Assento assento : assentos) {
-        Optional<Ingresso> ingressoOpt = ingressoRepository.findBySessaoAndAssento(sessao, assento);
-        
-        String statusPagamento = "LIVRE"; // Default: assento livre (sem ingresso)
-        
-        if (ingressoOpt.isPresent()) {
-            Ingresso ingresso = ingressoOpt.get();
-            Pagamento pagamento = ingresso.getCompra() != null ? ingresso.getCompra().getPagamento() : null;
-            if (pagamento != null) {
-                statusPagamento = pagamento.getStatus().name(); // converte enum para string
-            }
-        }
-
-        resultado.add(new AssentoStatusResponseDTO(
-            assento.getId(),
-            assento.getFileira(),
-            assento.getNumero(),
-            assento.getSala().getId(),
-            assento.getSessao().getId(),
-            statusPagamento
-        ));
-    }
-    return resultado;
-}
+   
 }
