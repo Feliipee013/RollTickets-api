@@ -49,4 +49,6 @@ public class PagamentoService {
 		Pagamento pagamento= pagamentoRepository.findById(id).orElseThrow(()->new RuntimeException("Pagamento não encontrado para deleção"));
 		pagamentoRepository.delete(pagamento);
 	}
+	
+	
 }
