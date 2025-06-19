@@ -21,6 +21,7 @@ import br.com.RollTickets.api.dto.PagamentoUpdateDTO;
 import br.com.RollTickets.api.entity.Compra;
 import br.com.RollTickets.api.entity.Pagamento;
 import br.com.RollTickets.api.enums.status;
+import br.com.RollTickets.api.mapper.PagamentoMapper;
 import br.com.RollTickets.api.repository.CompraRepository;
 import br.com.RollTickets.api.service.PagamentoService;
 
@@ -29,9 +30,6 @@ import br.com.RollTickets.api.service.PagamentoService;
 public class PagamentoController {
     @Autowired
 	PagamentoService pagamentoService;
-
-	@Autowired
-	CompraRepository compraRepository;
 	
 	@PostMapping("/realizar")
 	public ResponseEntity<PagamentoResponseDTO> store(@RequestBody PagamentoCreateDTO pagamentoCreateDTO) {
@@ -77,16 +75,19 @@ public class PagamentoController {
 	
     @PutMapping("/{id}/aprovar")
     public ResponseEntity<String> aprovarCompra(@PathVariable Long id) {
-        Compra compra = compraRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Compra não encontrada"));
+    	PagamentoResponseDTO pagamentoResponse = pagamentoService.show(id);
+        
+        if (pagamentoResponse != null) {
+            PagamentoUpdateDTO atualizado = new PagamentoUpdateDTO(
+                pagamentoResponse.id(),
+                pagamentoResponse.compra(),
+                pagamentoResponse.metodoPagamento(),
+                status.PAGO,
+                pagamentoResponse.dataHoraPagamento()
+            );
 
-        Pagamento pagamento = compra.getPagamento();
-        if (pagamento == null) {
-            throw new RuntimeException("Compra sem pagamento associado");
+            pagamentoService.update(atualizado);
         }
-
-        pagamento.setStatus(status.PAGO);
-        compraRepository.save(compra);
 
         return ResponseEntity.ok("Compra aprovada com sucesso");
     }
