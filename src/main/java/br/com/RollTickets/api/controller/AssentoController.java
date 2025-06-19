@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.RollTickets.api.dto.AssentoCreateDTO;
 import br.com.RollTickets.api.dto.AssentoResponseDTO;
+import br.com.RollTickets.api.dto.AssentoStatusResponseDTO;
 import br.com.RollTickets.api.dto.AssentoUpdateDTO;
 import br.com.RollTickets.api.service.AssentoService;
 
@@ -55,10 +56,16 @@ public class AssentoController {
         }
     }
 
-    @GetMapping("/reservados/{sessaoId}") //Serve para conseguir listar os assentos disponíveis no front
+    @GetMapping("/reservados/{sessaoId}") // Serve para conseguir listar os assentos disponíveis no front
     public ResponseEntity<List<AssentoResponseDTO>> getAssentosReservados(@PathVariable Long sessaoId) {
         List<AssentoResponseDTO> reservados = assentoService.listBySessao(sessaoId);
         return new ResponseEntity<>(reservados, HttpStatus.OK);
+    }
+
+    @GetMapping("/reservados_status/{sessaoId}")
+    public ResponseEntity<List<AssentoStatusResponseDTO>> getAssentosReservadosStatus(@PathVariable Long sessaoId) {
+        List<AssentoStatusResponseDTO> assentosStatus = assentoService.listBySessaoWithStatus(sessaoId);
+        return new ResponseEntity<>(assentosStatus, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id_assento}")
