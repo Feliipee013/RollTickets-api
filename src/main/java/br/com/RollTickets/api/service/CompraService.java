@@ -25,72 +25,69 @@ import br.com.RollTickets.api.repository.PagamentoRepository;
 
 @Service
 public class CompraService {
-	
-	@Autowired
-	CompraRepository compraRepository;
 
 	@Autowired
-	ClienteRepository clienteRepository;
+	private CompraRepository compraRepository;
 
 	@Autowired
-	IngressoRepository ingressoRepository;
+	private ClienteRepository clienteRepository;
 
 	@Autowired
-	PagamentoRepository pagamentoRepository;
-	
+	private IngressoRepository ingressoRepository;
+
+
+
 	public CompraResponseDTO store(CompraCreateDTO compraCreateDTO) {
 		Compra compra = new Compra();
 
-    Cliente cliente = clienteRepository.findById(compraCreateDTO.clienteId())
-        .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-    compra.setCliente(cliente);
+		Cliente cliente = clienteRepository.findById(compraCreateDTO.clienteId())
+				.orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+		compra.setCliente(cliente);
 
-    List<Ingresso> ingressos = compraCreateDTO.ingressosIds().stream()
-    	    .map(id -> ingressoRepository.findById(id)
-    	        .orElseThrow(() -> new RuntimeException("Ingresso não encontrado: " + id)))
-    	    .toList();
-    compra.setIngressos(ingressos);
-    
-    for (Ingresso ingresso : ingressos) {
-        ingresso.setCompra(compra);
-    }
-    compra.setIngressos(ingressos);
+		List<Ingresso> ingressos = compraCreateDTO.ingressosIds().stream()
+				.map(id -> ingressoRepository.findById(id)
+						.orElseThrow(() -> new RuntimeException("Ingresso não encontrado: " + id)))
+				.toList();
+		compra.setIngressos(ingressos);
 
+		for (Ingresso ingresso : ingressos) {
+			ingresso.setCompra(compra);
+		}
+		compra.setIngressos(ingressos);
 
-    compra.setDataHora(LocalDateTime.now());
+		compra.setDataHora(LocalDateTime.now());
 
-    compraRepository.save(compra);
+		compraRepository.save(compra);
 
-    return CompraMapper.toDTO(compra);
+		return CompraMapper.toDTO(compra);
 	}
 
-
-	
 	public List<CompraResponseDTO> list() {
 		return compraRepository.findAll().stream().map(CompraMapper::toDTO).toList();
 	}
-	
+
 	public CompraResponseDTO show(long id) {
-			Compra compra = compraRepository.findById(id)
-					.orElseThrow(()->new RuntimeException("Compra com id: " + id + " não encontrado"));
-			return CompraMapper.toDTO(compra);
+		Compra compra = compraRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Compra com id: " + id + " não encontrado"));
+		return CompraMapper.toDTO(compra);
 	}
-	
+
 	public CompraResponseDTO update(CompraUpdateDTO compraUpdateDTO) {
-	 Compra compra = compraRepository.findById(compraUpdateDTO.id())
-        .orElseThrow(() -> new RuntimeException("Compra não encontrada para alteração"));
+		Compra compra = compraRepository.findById(compraUpdateDTO.id())
+				.orElseThrow(() -> new RuntimeException("Compra não encontrada para alteração"));
 
-    List<Ingresso> ingressos = compraUpdateDTO.ingresso().stream()
-        .map(id -> ingressoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Ingresso não encontrado: " + id)))
-        .toList();
-    compra.setIngressos(ingressos);
+		List<Ingresso> ingressos = compraUpdateDTO.ingresso().stream()
+				.map(id -> ingressoRepository.findById(id)
+						.orElseThrow(() -> new RuntimeException("Ingresso não encontrado: " + id)))
+				.toList();
+		compra.setIngressos(ingressos);
 
-    return CompraMapper.toDTO(compraRepository.save(compra));
+		return CompraMapper.toDTO(compraRepository.save(compra));
 	}
-	
+
 	public void destroy(long id) {
-		Compra compra= compraRepository.findById(id).orElseThrow(()->new RuntimeException("Compra não encontrado para deleção"));
+		Compra compra = compraRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Compra não encontrado para deleção"));
 		compraRepository.delete(compra);
 	}
 }

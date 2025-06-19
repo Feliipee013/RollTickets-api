@@ -33,7 +33,7 @@ public class Pagamento {
     private status status;
     
 
-    LocalDateTime dataHoraPagamento;
+    private LocalDateTime dataHoraPagamento;
 
     public Pagamento(Compra compra, metodoPagamento metodoPagamento, status status,
             LocalDateTime dataHoraPagamento) {
@@ -59,7 +59,7 @@ public class Pagamento {
         return compra;
     }
 
-    public void setIngresso(Compra compra) {
+    public void setCompra(Compra compra) {
         this.compra = compra;
     }
 
