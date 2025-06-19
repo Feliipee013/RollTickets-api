@@ -12,5 +12,5 @@ public interface IngressoRepository extends JpaRepository<Ingresso, Long> {
     boolean existsBySessaoAndAssento(Sessao sessao, Assento assento); //Função para verificar se existe uma sessão e um assento
     List<Ingresso> findByClienteId(Long clienteId); //Função para achar os ingressos por um id do cliente
     Optional<Ingresso> findBySessaoAndAssento(Sessao sessao, Assento assento);
-
+    Optional<Ingresso> findByAssentoId(Long assentoId);
 }
