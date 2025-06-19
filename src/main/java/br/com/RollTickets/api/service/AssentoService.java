@@ -1,6 +1,5 @@
 package br.com.RollTickets.api.service;
 
-import java.util.ArrayList;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +10,14 @@ import br.com.RollTickets.api.dto.AssentoResponseDTO;
 import br.com.RollTickets.api.dto.AssentoStatusResponseDTO;
 import br.com.RollTickets.api.dto.AssentoUpdateDTO;
 import br.com.RollTickets.api.entity.Assento;
+import br.com.RollTickets.api.entity.Compra;
 import br.com.RollTickets.api.entity.Ingresso;
 import br.com.RollTickets.api.entity.Pagamento;
 import br.com.RollTickets.api.entity.Sessao;
 import br.com.RollTickets.api.mapper.AssentoMapper;
 import br.com.RollTickets.api.repository.AssentoRepository;
 import br.com.RollTickets.api.repository.IngressoRepository;
+import br.com.RollTickets.api.repository.PagamentoRepository;
 
 @Service
 public class AssentoService {
@@ -29,6 +30,9 @@ public class AssentoService {
 
     @Autowired
     private IngressoRepository ingressoRepository;
+
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
 
     public AssentoResponseDTO store(AssentoCreateDTO assentoCreateDTO) {
 
@@ -96,6 +100,44 @@ public class AssentoService {
                 .orElseThrow(() -> new RuntimeException("Assento não encontrado para deleção"));
         assentoRepository.delete(assento);
     }
+
+
+    public List<AssentoStatusResponseDTO> listBySessaoWithStatus(Long sessaoId) {
+    List<Assento> assentos = assentoRepository.findBySessaoId(sessaoId);
+    List<AssentoStatusResponseDTO> result = new ArrayList<>();
+
+    for (Assento assento : assentos) {
+        String statusPagamento = "LIVRE"; // padrão caso não tenha compra
+
+        // Tenta encontrar ingresso para esse assento
+        Optional<Ingresso> ingressoOpt = ingressoRepository.findByAssentoId(assento.getId());
+
+        if (ingressoOpt.isPresent()) {
+            Ingresso ingresso = ingressoOpt.get();
+            Compra compra = ingresso.getCompra();
+
+            if (compra != null) {
+                // Tenta achar pagamento para a compra
+                Optional<Pagamento> pagamentoOpt = pagamentoRepository.findByCompraId(compra.getId());
+
+                if (pagamentoOpt.isPresent()) {
+                    statusPagamento = pagamentoOpt.get().getStatus().name(); // "PAGO" ou "PENDENTE"
+                }
+            }
+        }
+
+        result.add(new AssentoStatusResponseDTO(
+            assento.getId(),
+            assento.getFileira(),
+            assento.getNumero(),
+            assento.getSala().getId(),
+            assento.getSessao().getId(),
+            statusPagamento
+        ));
+    }
+
+    return result;
+}
 
    
 }
