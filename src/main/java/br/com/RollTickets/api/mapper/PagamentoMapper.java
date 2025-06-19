@@ -3,6 +3,7 @@ package br.com.RollTickets.api.mapper;
 import br.com.RollTickets.api.dto.PagamentoCreateDTO;
 import br.com.RollTickets.api.dto.PagamentoResponseDTO;
 import br.com.RollTickets.api.entity.Pagamento;
+import br.com.RollTickets.api.entity.Compra;
 
 public class PagamentoMapper {
     
@@ -11,12 +12,12 @@ public class PagamentoMapper {
 		return pagamentoResponseDTO;
 	}
 
-    public static Pagamento toEntity(PagamentoCreateDTO pagamentoCreateDTO){
-        Pagamento pagamento = new Pagamento();
-        pagamento.setIngresso(pagamentoCreateDTO.compra());
-        pagamento.setMetodoPagamento(pagamentoCreateDTO.metodoPagamento());
-        pagamento.setStatus(pagamentoCreateDTO.status());
-
-        return pagamento;
-    }
+   public static Pagamento toEntity(PagamentoCreateDTO pagamentoCreateDTO,Compra compra) {
+    Pagamento pagamento = new Pagamento();
+    pagamento.setCompra(compra);
+    pagamento.setMetodoPagamento(pagamentoCreateDTO.metodoPagamento());
+    pagamento.setStatus(pagamentoCreateDTO.status());
+    pagamento.setDataHoraPagamento(pagamentoCreateDTO.dataHoraPagamento());
+    return pagamento;
+}
 }

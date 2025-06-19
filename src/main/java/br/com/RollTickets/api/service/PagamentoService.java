@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import br.com.RollTickets.api.dto.PagamentoCreateDTO;
 import br.com.RollTickets.api.dto.PagamentoResponseDTO;
 import br.com.RollTickets.api.dto.PagamentoUpdateDTO;
+import br.com.RollTickets.api.entity.Compra;
 import br.com.RollTickets.api.entity.Pagamento;
 import br.com.RollTickets.api.mapper.PagamentoMapper;
+import br.com.RollTickets.api.repository.CompraRepository;
 import br.com.RollTickets.api.repository.PagamentoRepository;
 
 @Service
@@ -17,9 +19,13 @@ public class PagamentoService {
     	
 	@Autowired
 	PagamentoRepository pagamentoRepository;
+
+	@Autowired
+	CompraRepository compraRepository;
 	
 	public PagamentoResponseDTO store(PagamentoCreateDTO pagamentoCreateDTO) {
-		Pagamento pagamento = PagamentoMapper.toEntity(pagamentoCreateDTO);
+		Compra compra = compraRepository.findById(pagamentoCreateDTO.compra_id()).orElseThrow(() -> new RuntimeException("Compra não encontrada"));
+		Pagamento pagamento = PagamentoMapper.toEntity(pagamentoCreateDTO,compra);
 		pagamentoRepository.save(pagamento);
 		return PagamentoMapper.toDTO(pagamento);
 	}
@@ -36,7 +42,7 @@ public class PagamentoService {
 	
 	public PagamentoResponseDTO update(PagamentoUpdateDTO pagamentoUpdateDTO) {
 		Pagamento pagamento = pagamentoRepository.findById(pagamentoUpdateDTO.id()).orElseThrow(()->new RuntimeException("Pagamento não encontrado para alteração"));
-		pagamento.setIngresso(pagamentoUpdateDTO.compra());
+		pagamento.setCompra(pagamentoUpdateDTO.compra());
         pagamento.setMetodoPagamento(pagamentoUpdateDTO.metodoPagamento());
         pagamento.setStatus(pagamentoUpdateDTO.status());
         pagamento.setDataHoraPagamento(pagamentoUpdateDTO.dataHoraPagamento());
