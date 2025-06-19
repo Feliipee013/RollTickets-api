@@ -1,5 +1,6 @@
 package br.com.RollTickets.api.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import br.com.RollTickets.api.dto.PagamentoResponseDTO;
 import br.com.RollTickets.api.dto.PagamentoUpdateDTO;
 import br.com.RollTickets.api.entity.Compra;
 import br.com.RollTickets.api.entity.Pagamento;
+import br.com.RollTickets.api.enums.metodoPagamento;
+import br.com.RollTickets.api.enums.status;
 import br.com.RollTickets.api.mapper.PagamentoMapper;
 import br.com.RollTickets.api.repository.CompraRepository;
 import br.com.RollTickets.api.repository.PagamentoRepository;
@@ -55,6 +58,18 @@ public class PagamentoService {
 		Pagamento pagamento= pagamentoRepository.findById(id).orElseThrow(()->new RuntimeException("Pagamento não encontrado para deleção"));
 		pagamentoRepository.delete(pagamento);
 	}
+
+	public Pagamento storeOrUpdatePagamento(Compra compra, status status, metodoPagamento metodo, LocalDateTime dataHora) {
+        Pagamento pagamento = pagamentoRepository.findByCompra(compra)
+            .orElse(new Pagamento());
+
+        pagamento.setCompra(compra);
+        pagamento.setStatus(status);
+        pagamento.setMetodoPagamento(metodo);
+        pagamento.setDataHoraPagamento(dataHora);
+
+        return pagamentoRepository.save(pagamento);
+    }
 	
 	
 }
