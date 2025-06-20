@@ -1,7 +1,7 @@
 package br.com.RollTickets.api.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,16 +60,27 @@ public class PagamentoService {
 	}
 
 	public Pagamento storeOrUpdatePagamento(Compra compra, status status, metodoPagamento metodo, LocalDateTime dataHora) {
-        Pagamento pagamento = pagamentoRepository.findByCompra(compra)
-            .orElse(new Pagamento());
-
-        pagamento.setCompra(compra);
-        pagamento.setStatus(status);
-        pagamento.setMetodoPagamento(metodo);
-        pagamento.setDataHoraPagamento(dataHora);
-
-        return pagamentoRepository.save(pagamento);
+    Optional<Pagamento> optPagamento = pagamentoRepository.findByCompra(compra);
+    Pagamento pagamento;
+    if (optPagamento.isPresent()) {
+        pagamento = optPagamento.get();
+        System.out.println("Atualizando pagamento existente id: " + pagamento.getId());
+    } else {
+        pagamento = new Pagamento();
+        System.out.println("Criando novo pagamento para compraId: " + compra.getId());
     }
+
+    pagamento.setCompra(compra);
+    pagamento.setStatus(status);
+    pagamento.setMetodoPagamento(metodo);
+    pagamento.setDataHoraPagamento(dataHora);
+
+    Pagamento salvo = pagamentoRepository.save(pagamento);
+    System.out.println("Pagamento salvo com id: " + salvo.getId() + " e status: " + salvo.getStatus());
+
+    return salvo;
+}
+
 	
 	
 }
