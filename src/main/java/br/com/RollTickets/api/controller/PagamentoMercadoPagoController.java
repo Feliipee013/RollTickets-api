@@ -53,6 +53,8 @@ public class PagamentoMercadoPagoController {
                 .email(pagamentoDTO.payer().email())
                 .build();
 
+                
+
         // Cria o objeto de requisição de pagamento
         PaymentCreateRequest paymentRequest = PaymentCreateRequest.builder()
                 .transactionAmount(BigDecimal.valueOf(pagamentoDTO.valor()))
@@ -63,13 +65,50 @@ public class PagamentoMercadoPagoController {
                 .payer(payerRequest)
                 .build();
 
+
+        try {        
         // Executa o pagamento
         Payment payment = paymentClient.create(paymentRequest);
+             System.out.println("Status do pagamento: " + payment.getStatus());
+    System.out.println("Status detail: " + payment.getStatusDetail());
+    System.out.println("ID do pagamento: " + payment.getId());
+          if ("approved".equalsIgnoreCase(payment.getStatus())) {
+        Long compraId = pagamentoDTO.compraId(); // você deve adicionar isso no DTO
+
+        Compra compra = compraRepository.findById(compraId)
+                .orElseThrow(() -> new RuntimeException("Compra não encontrada"));
+
+        pagamentoService.storeOrUpdatePagamento(compra, status.PAGO, metodoPagamento.CREDITO, LocalDateTime.now());
+
+        return ResponseEntity.ok(Map.of(
+                "status", payment.getStatus(),
+                "id", payment.getId(),
+                "message", "Pagamento aprovado e confirmado!"
+        ));
+    }
+       
 
         // Retorna resposta
         return ResponseEntity.ok(Map.of(
                 "status", payment.getStatus(),
-                "id", payment.getId()));
+                "status_detail", payment.getStatusDetail(),
+                "id", payment.getId(),
+                "message", "Pagamento pendente ou recusado."));
+                
+
+    }catch (MPApiException ex) {
+    System.err.println("Erro da API do Mercado Pago:");
+    System.err.println("Status Code: " + ex.getStatusCode());
+    System.err.println("Content: " + ex.getApiResponse().getContent());
+    ex.printStackTrace();
+    return ResponseEntity.status(500).body(Map.of(
+        "message", "Erro ao processar pagamento",
+        "statusCode", ex.getStatusCode(),
+        "error", ex.getApiResponse().getContent()
+    ));
+}
+
+
 
     }
 

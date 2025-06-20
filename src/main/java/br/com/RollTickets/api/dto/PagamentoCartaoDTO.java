@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public record PagamentoCartaoDTO(
     String token,
 
+     Long compraId,
+
     @JsonProperty("payment_method_id")
     String paymentMethodId,
 
