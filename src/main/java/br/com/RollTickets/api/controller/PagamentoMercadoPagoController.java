@@ -29,7 +29,6 @@ import br.com.RollTickets.api.enums.metodoPagamento;
 
 @RestController
 @RequestMapping("/api/mercadopago")
-@CrossOrigin("*")
 public class PagamentoMercadoPagoController {
 
     @Autowired
@@ -51,7 +50,7 @@ public class PagamentoMercadoPagoController {
         PaymentClient paymentClient = new PaymentClient();
 
         PaymentPayerRequest payerRequest = PaymentPayerRequest.builder()
-                .email(pagamentoDTO.email())
+                .email(pagamentoDTO.payer().email())
                 .build();
 
         // Cria o objeto de requisição de pagamento
@@ -100,5 +99,7 @@ public class PagamentoMercadoPagoController {
             return ResponseEntity.ok(Map.of("status", statusMP, "message", "Pagamento não aprovado ainda."));
         }
     }
+
+    
 
 }
