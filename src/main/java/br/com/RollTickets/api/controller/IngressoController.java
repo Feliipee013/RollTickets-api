@@ -1,6 +1,7 @@
 package br.com.RollTickets.api.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import br.com.RollTickets.api.dto.IngressoCreateDTO;
 import br.com.RollTickets.api.dto.IngressoResponseDTO;
 import br.com.RollTickets.api.dto.IngressoUpdateDTO;
+import br.com.RollTickets.api.entity.Ingresso;
+import br.com.RollTickets.api.mapper.IngressoMapper;
 import br.com.RollTickets.api.service.IngressoService;
 
 @RestController
@@ -53,13 +56,28 @@ public class IngressoController {
         }
     }
 
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<String> destroy(@PathVariable Long id) {
+//        try {
+//            ingressoService.destroy(id);
+//            return new ResponseEntity<>("Ingresso deletado com sucesso", HttpStatus.OK);
+//        } catch (RuntimeException e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+//        }
+//    }
+    
+    @GetMapping("/pendentes/{clienteId}")
+    public ResponseEntity<List<IngressoResponseDTO>> listarPendentes(@PathVariable Long clienteId) {
+        List<Ingresso> ingressos = ingressoService.listarIngressosPendentesPorCliente(clienteId);
+        List<IngressoResponseDTO> dtos = ingressos.stream()
+                .map(IngressoMapper::toDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> destroy(@PathVariable Long id) {
-        try {
-            ingressoService.destroy(id);
-            return new ResponseEntity<>("Ingresso deletado com sucesso", HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Void> remover(@PathVariable Long id) {
+        ingressoService.removerIngressoEPossivelmenteCompra(id);
+        return ResponseEntity.noContent().build();
     }
 }
