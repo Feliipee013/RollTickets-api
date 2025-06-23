@@ -1,5 +1,6 @@
 package br.com.RollTickets.api.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +27,7 @@ public class Ingresso {
 	@JoinColumn(name = "sessao_id")
 	private Sessao sessao;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "assento_id")
 	private Assento assento;
 	
