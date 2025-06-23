@@ -30,7 +30,7 @@ public class Compra {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ingresso> ingressos = new ArrayList<>();
 
 
