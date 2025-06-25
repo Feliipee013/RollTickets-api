@@ -23,6 +23,7 @@ import com.mercadopago.resources.payment.Payment;
 import br.com.RollTickets.api.dto.PagamentoCartaoDTO;
 import br.com.RollTickets.api.entity.Compra;
 import br.com.RollTickets.api.repository.CompraRepository;
+import br.com.RollTickets.api.service.IngressoService;
 import br.com.RollTickets.api.service.PagamentoService;
 import br.com.RollTickets.api.enums.status;
 import br.com.RollTickets.api.enums.metodoPagamento;
@@ -36,6 +37,9 @@ public class PagamentoMercadoPagoController {
 
     @Autowired
     private CompraRepository compraRepository;
+
+    @Autowired
+    private IngressoService ingressoService;
 
     @Value("${mercadopago.token}")
     private String accessToken;
@@ -53,8 +57,6 @@ public class PagamentoMercadoPagoController {
                 .email(pagamentoDTO.payer().email())
                 .build();
 
-                
-
         // Cria o objeto de requisição de pagamento
         PaymentCreateRequest paymentRequest = PaymentCreateRequest.builder()
                 .transactionAmount(BigDecimal.valueOf(pagamentoDTO.valor()))
@@ -65,50 +67,45 @@ public class PagamentoMercadoPagoController {
                 .payer(payerRequest)
                 .build();
 
+        try {
+            // Executa o pagamento
+            Payment payment = paymentClient.create(paymentRequest);
+            System.out.println("Status do pagamento: " + payment.getStatus());
+            System.out.println("Status detail: " + payment.getStatusDetail());
+            System.out.println("ID do pagamento: " + payment.getId());
+            if ("approved".equalsIgnoreCase(payment.getStatus())) {
+                Long compraId = pagamentoDTO.compraId(); // Pega o id da compra
+                Long clienteId = pagamentoDTO.clienteId(); //Pega o id do cliente
 
-        try {        
-        // Executa o pagamento
-        Payment payment = paymentClient.create(paymentRequest);
-             System.out.println("Status do pagamento: " + payment.getStatus());
-    System.out.println("Status detail: " + payment.getStatusDetail());
-    System.out.println("ID do pagamento: " + payment.getId());
-          if ("approved".equalsIgnoreCase(payment.getStatus())) {
-        Long compraId = pagamentoDTO.compraId(); // você deve adicionar isso no DTO
+                Compra compra = compraRepository.findById(compraId) //Extrai os dados da compra e do cliente do DTO
+                        .orElseThrow(() -> new RuntimeException("Compra não encontrada"));
 
-        Compra compra = compraRepository.findById(compraId)
-                .orElseThrow(() -> new RuntimeException("Compra não encontrada"));
+                pagamentoService.storeOrUpdatePagamento(compra, status.PAGO, metodoPagamento.CREDITO,
+                        LocalDateTime.now()); //Busca a compra no BD
+                ingressoService.vincularIngressosPendentesACompra(clienteId, compra.getId()); //Atualiza ou cria o pagamento com o status "PAGO"
+                return ResponseEntity.ok(Map.of( //Isso serve para que todos os ingressos que estejam com pendentes, no final fiquem associados a compra confirmada
+                        "status", payment.getStatus(),
+                        "id", payment.getId(),
+                        "message", "Pagamento aprovado e confirmado!"));
+            }
 
-        pagamentoService.storeOrUpdatePagamento(compra, status.PAGO, metodoPagamento.CREDITO, LocalDateTime.now());
+            // Retorna resposta
+            return ResponseEntity.ok(Map.of(
+                    "status", payment.getStatus(),
+                    "status_detail", payment.getStatusDetail(),
+                    "id", payment.getId(),
+                    "message", "Pagamento pendente ou recusado."));
 
-        return ResponseEntity.ok(Map.of(
-                "status", payment.getStatus(),
-                "id", payment.getId(),
-                "message", "Pagamento aprovado e confirmado!"
-        ));
-    }
-       
-
-        // Retorna resposta
-        return ResponseEntity.ok(Map.of(
-                "status", payment.getStatus(),
-                "status_detail", payment.getStatusDetail(),
-                "id", payment.getId(),
-                "message", "Pagamento pendente ou recusado."));
-                
-
-    }catch (MPApiException ex) {
-    System.err.println("Erro da API do Mercado Pago:");
-    System.err.println("Status Code: " + ex.getStatusCode());
-    System.err.println("Content: " + ex.getApiResponse().getContent());
-    ex.printStackTrace();
-    return ResponseEntity.status(500).body(Map.of(
-        "message", "Erro ao processar pagamento",
-        "statusCode", ex.getStatusCode(),
-        "error", ex.getApiResponse().getContent()
-    ));
-}
-
-
+        } catch (MPApiException ex) {
+            System.err.println("Erro da API do Mercado Pago:");
+            System.err.println("Status Code: " + ex.getStatusCode());
+            System.err.println("Content: " + ex.getApiResponse().getContent());
+            ex.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of(
+                    "message", "Erro ao processar pagamento",
+                    "statusCode", ex.getStatusCode(),
+                    "error", ex.getApiResponse().getContent()));
+        }
 
     }
 
@@ -118,9 +115,11 @@ public class PagamentoMercadoPagoController {
         MercadoPagoConfig.setAccessToken(accessToken);
         String paymentIdStr = body.get("paymentId"); // id Mercado Pago
         String compraIdStr = body.get("compraId"); // id Compra no seu sistema
+        String clienteIdStr = body.get("clienteId");//id Cliente no sistema
 
-        Long compraId = Long.parseLong(compraIdStr);
-
+        Long clienteId = Long.parseLong(clienteIdStr); //Lê os dados do corpo da requisição
+        Long compraId = Long.parseLong(compraIdStr); //Lê os dados do corpo da requisição
+                
         PaymentClient paymentClient = new PaymentClient();
         Payment payment = paymentClient.get(Long.parseLong(paymentIdStr));
 
@@ -131,14 +130,12 @@ public class PagamentoMercadoPagoController {
                     .orElseThrow(() -> new RuntimeException("Compra não encontrada"));
 
             // Cria ou atualiza o pagamento no seu sistema
-            pagamentoService.storeOrUpdatePagamento(compra, status.PAGO, metodoPagamento.CREDITO, LocalDateTime.now());
-
+            pagamentoService.storeOrUpdatePagamento(compra, status.PAGO, metodoPagamento.CREDITO, LocalDateTime.now()); //Serve para atualizar as compras
+            ingressoService.vincularIngressosPendentesACompra(clienteId, compra.getId()); //E isso para vincular aos ingressos pendentes
             return ResponseEntity.ok(Map.of("status", statusMP, "message", "Pagamento aprovado! Compra confirmada."));
         } else {
             return ResponseEntity.ok(Map.of("status", statusMP, "message", "Pagamento não aprovado ainda."));
         }
     }
-
-    
 
 }
