@@ -38,7 +38,6 @@ public class IngressoService {
 
     @Autowired
     private ClienteRepository clienteRepository;
-    
 
     @Autowired
     private CompraRepository compraRepository;
@@ -46,7 +45,9 @@ public class IngressoService {
     @Autowired
     private PagamentoRepository pagamentoRepository;
 
-    public IngressoResponseDTO store(IngressoCreateDTO ingressoCreateDTO) { //Como eu só tô com os IDs agr, preciso realizar uma busca das sessões, assentos e cliente específicos
+    public IngressoResponseDTO store(IngressoCreateDTO ingressoCreateDTO) { // Como eu só tô com os IDs agr, preciso
+                                                                            // realizar uma busca das sessões, assentos
+                                                                            // e cliente específicos
 
         Sessao sessao = sessaoRepository.findById(ingressoCreateDTO.sessaoid())
                 .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
@@ -98,16 +99,14 @@ public class IngressoService {
         return IngressoMapper.toDTO(ingressoExistente);
     }
 
-    
-
     public void destroy(Long id) {
         if (!ingressoRepository.existsById(id)) {
             throw new RuntimeException("Ingresso não encontrado para exclusão: " + id);
         }
         ingressoRepository.deleteById(id);
     }
-    
-    //lista os ingressos pendentes
+
+    // lista os ingressos pendentes
     public List<Ingresso> listarIngressosPendentesPorCliente(Long clienteId) {
         return ingressoRepository.findByClienteIdAndPagamentoStatus(clienteId, status.PENDENTE);
     }
@@ -133,6 +132,22 @@ public class IngressoService {
         if (compra != null && compra.getIngressos().isEmpty()) {
             pagamentoRepository.findByCompraId(compra.getId()).ifPresent(pagamentoRepository::delete);
             compraRepository.delete(compra);
+        }
+    }
+
+    public void vincularIngressosPendentesACompra(Long clienteId, Long compraId) {
+        List<Ingresso> pendentes = ingressoRepository.findByClienteIdAndCompraPagamentoStatus(clienteId,
+                status.PENDENTE); // Essa lista pega todos os ingressos do "clienteId" que estão com o pagamento
+                                  // "PENDENTE"
+
+        Compra compra = compraRepository.findById(compraId)
+                .orElseThrow(() -> new RuntimeException("Compra não encontrada")); // Busca a compra no BD
+
+        for (Ingresso ingresso : pendentes) { // Esse for serve para associar a mesma compra a todos os ingressos
+                                              // pendentes, porque se não fizer isso o pagamento não teria como ser
+                                              // feito em relação a todos os ingressos que o cliente tinha selecionado
+            ingresso.setCompra(compra);
+            ingressoRepository.save(ingresso);
         }
     }
 }

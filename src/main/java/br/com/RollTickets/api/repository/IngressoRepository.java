@@ -12,17 +12,23 @@ import br.com.RollTickets.api.enums.status;
 
 @Repository
 public interface IngressoRepository extends JpaRepository<Ingresso, Long> {
-    boolean existsBySessaoAndAssento(Sessao sessao, Assento assento); //Função para verificar se existe uma sessão e um assento
-    List<Ingresso> findByClienteId(Long clienteId); //Função para achar os ingressos por um id do cliente
-    Optional<Ingresso> findBySessaoAndAssento(Sessao sessao, Assento assento);
-    Optional<Ingresso> findByAssentoId(Long assentoId);
-    
-    @Query("""
-    	    SELECT i FROM Ingresso i
-    	    JOIN i.compra c
-    	    JOIN Pagamento p ON p.compra = c
-    	    WHERE i.cliente.id = :clienteId AND p.status = :status
-    	""")
-    	List<Ingresso> findByClienteIdAndPagamentoStatus(@Param("clienteId") Long clienteId,
-    	                                                 @Param("status") status status);
+	boolean existsBySessaoAndAssento(Sessao sessao, Assento assento); // Função para verificar se existe uma sessão e um
+																		// assento
+
+	List<Ingresso> findByClienteId(Long clienteId); // Função para achar os ingressos por um id do cliente
+
+	Optional<Ingresso> findBySessaoAndAssento(Sessao sessao, Assento assento);
+
+	Optional<Ingresso> findByAssentoId(Long assentoId);
+
+	@Query("""
+			    SELECT i FROM Ingresso i
+			    JOIN i.compra c
+			    JOIN Pagamento p ON p.compra = c
+			    WHERE i.cliente.id = :clienteId AND p.status = :status
+			""")
+	List<Ingresso> findByClienteIdAndPagamentoStatus(@Param("clienteId") Long clienteId,
+			@Param("status") status status);
+
+	List<Ingresso> findByClienteIdAndCompraPagamentoStatus(Long clienteId, status status);
 }

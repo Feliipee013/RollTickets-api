@@ -1,6 +1,6 @@
 package br.com.RollTickets.api.controller;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class IngressoController {
         }
     }
 
-    @GetMapping("/cliente/{clienteId}") //Serve para buscar os ingressos pelo id do cliente
+    @GetMapping("/cliente/{clienteId}") // Serve para buscar os ingressos pelo id do cliente
     public ResponseEntity<List<IngressoResponseDTO>> getIngressosPorCliente(@PathVariable Long clienteId) {
         List<IngressoResponseDTO> ingressos = ingressoService.buscarIngressosPorCliente(clienteId);
         return ResponseEntity.ok(ingressos);
@@ -56,16 +56,16 @@ public class IngressoController {
         }
     }
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<String> destroy(@PathVariable Long id) {
-//        try {
-//            ingressoService.destroy(id);
-//            return new ResponseEntity<>("Ingresso deletado com sucesso", HttpStatus.OK);
-//        } catch (RuntimeException e) {
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-//        }
-//    }
-    
+    // @DeleteMapping("/{id}")
+    // public ResponseEntity<String> destroy(@PathVariable Long id) {
+    // try {
+    // ingressoService.destroy(id);
+    // return new ResponseEntity<>("Ingresso deletado com sucesso", HttpStatus.OK);
+    // } catch (RuntimeException e) {
+    // return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    // }
+    // }
+
     @GetMapping("/pendentes/{clienteId}")
     public ResponseEntity<List<IngressoResponseDTO>> listarPendentes(@PathVariable Long clienteId) {
         List<Ingresso> ingressos = ingressoService.listarIngressosPendentesPorCliente(clienteId);
