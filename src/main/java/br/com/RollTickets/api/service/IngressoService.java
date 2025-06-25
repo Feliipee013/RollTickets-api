@@ -11,12 +11,17 @@ import br.com.RollTickets.api.dto.IngressoResponseDTO;
 import br.com.RollTickets.api.dto.IngressoUpdateDTO;
 import br.com.RollTickets.api.entity.Assento;
 import br.com.RollTickets.api.entity.Cliente;
+import br.com.RollTickets.api.entity.Compra;
 import br.com.RollTickets.api.entity.Ingresso;
 import br.com.RollTickets.api.entity.Sessao;
+import br.com.RollTickets.api.enums.status;
 import br.com.RollTickets.api.repository.AssentoRepository;
 import br.com.RollTickets.api.repository.ClienteRepository;
+import br.com.RollTickets.api.repository.CompraRepository;
 import br.com.RollTickets.api.repository.IngressoRepository;
+import br.com.RollTickets.api.repository.PagamentoRepository;
 import br.com.RollTickets.api.repository.SessaoRepository;
+import jakarta.transaction.Transactional;
 import br.com.RollTickets.api.mapper.IngressoMapper;
 
 @Service
@@ -34,7 +39,15 @@ public class IngressoService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public IngressoResponseDTO store(IngressoCreateDTO ingressoCreateDTO) { //Como eu só tô com os IDs agr, preciso realizar uma busca das sessões, assentos e cliente específicos
+    @Autowired
+    private CompraRepository compraRepository;
+
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
+
+    public IngressoResponseDTO store(IngressoCreateDTO ingressoCreateDTO) { // Como eu só tô com os IDs agr, preciso
+                                                                            // realizar uma busca das sessões, assentos
+                                                                            // e cliente específicos
 
         Sessao sessao = sessaoRepository.findById(ingressoCreateDTO.sessaoid())
                 .orElseThrow(() -> new RuntimeException("Sessão não encontrada"));
@@ -86,12 +99,55 @@ public class IngressoService {
         return IngressoMapper.toDTO(ingressoExistente);
     }
 
-    
-
     public void destroy(Long id) {
         if (!ingressoRepository.existsById(id)) {
             throw new RuntimeException("Ingresso não encontrado para exclusão: " + id);
         }
         ingressoRepository.deleteById(id);
+    }
+
+    // lista os ingressos pendentes
+    public List<Ingresso> listarIngressosPendentesPorCliente(Long clienteId) {
+        return ingressoRepository.findByClienteIdAndPagamentoStatus(clienteId, status.PENDENTE);
+    }
+
+    // remove o ingresso da compra e libera o assento
+    @Transactional
+    public void removerIngressoEPossivelmenteCompra(Long ingressoId) {
+        Ingresso ingresso = ingressoRepository.findById(ingressoId)
+                .orElseThrow(() -> new RuntimeException("Ingresso não encontrado"));
+
+        Assento assento = ingresso.getAssento();
+        Compra compra = ingresso.getCompra();
+
+        // Atualiza a lista de ingressos da compra removendo o ingresso a ser deletado
+        if (compra != null) {
+            compra.getIngressos().removeIf(i -> i.getId() == ingressoId);
+        }
+
+        ingressoRepository.delete(ingresso);
+        assentoRepository.delete(assento);
+
+        // Se a compra ficar sem ingressos, delete ela também
+        if (compra != null && compra.getIngressos().isEmpty()) {
+            pagamentoRepository.findByCompraId(compra.getId()).ifPresent(pagamentoRepository::delete);
+            compraRepository.delete(compra);
+        }
+    }
+
+    public void vincularIngressosPendentesACompra(Long clienteId, Long compraId) {
+        List<Ingresso> pendentes = ingressoRepository.findByClienteIdAndCompraPagamentoStatus(clienteId,
+                status.PENDENTE); // Essa lista pega todos os ingressos do "clienteId" que estão com o pagamento
+                                  // "PENDENTE"
+
+        Compra compra = compraRepository.findById(compraId)
+                .orElseThrow(() -> new RuntimeException("Compra não encontrada")); // Busca a compra no BD
+
+        for (Ingresso ingresso : pendentes) { // Esse for serve para associar a mesma compra a todos os ingressos
+                                              // pendentes, porque se não fizer isso o pagamento não teria como ser
+                                              // feito em relação a todos os ingressos que o cliente tinha selecionado
+            ingresso.setCompra(compra);
+            ingressoRepository.save(ingresso);
+        }
     }
 }
