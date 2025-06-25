@@ -7,6 +7,8 @@ public record PagamentoCartaoDTO(
 
      Long compraId,
 
+      Long clienteId,
+
     @JsonProperty("payment_method_id")
     String paymentMethodId,
 
