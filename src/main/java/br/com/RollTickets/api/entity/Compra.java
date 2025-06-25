@@ -33,14 +33,19 @@ public class Compra {
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ingresso> ingressos = new ArrayList<>();
 
+    @OneToOne(mappedBy = "compra")
+    private Pagamento pagamento;
 
-    public Compra(){}
 
-    public Compra(Long id, LocalDateTime dataHora, Cliente cliente, List<Ingresso> ingressos) {
+    public Compra() {
+    }
+
+    public Compra(Long id, LocalDateTime dataHora, Cliente cliente, List<Ingresso> ingressos, Pagamento pagamento) {
         this.id = id;
         this.dataHora = dataHora;
         this.cliente = cliente;
         this.ingressos = ingressos;
+        this.pagamento = pagamento;
     }
 
     public Long getId() {
@@ -73,7 +78,14 @@ public class Compra {
 
     public void setIngressos(List<Ingresso> ingressos) {
         this.ingressos = ingressos;
-    }   
+    }
 
-    
+    public void setPagamento(Pagamento pagamento){
+        this.pagamento = pagamento;
+    }
+
+    public Pagamento getPagamento(){
+        return pagamento;
+    }
+
 }
