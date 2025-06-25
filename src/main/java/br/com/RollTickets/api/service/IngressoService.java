@@ -106,12 +106,13 @@ public class IngressoService {
         ingressoRepository.deleteById(id);
     }
 
-    // lista os ingressos pendentes
+    // lista os ingressos pendentes de um cliente
     public List<Ingresso> listarIngressosPendentesPorCliente(Long clienteId) {
         return ingressoRepository.findByClienteIdAndPagamentoStatus(clienteId, status.PENDENTE);
     }
 
-    // remove o ingresso da compra e libera o assento
+    //Método que vai ser usado no carrinho para remover ingressos e se remover
+    //todos os ingresssos deleta a compra
     @Transactional
     public void removerIngressoEPossivelmenteCompra(Long ingressoId) {
         Ingresso ingresso = ingressoRepository.findById(ingressoId)
@@ -120,15 +121,15 @@ public class IngressoService {
         Assento assento = ingresso.getAssento();
         Compra compra = ingresso.getCompra();
 
-        // Atualiza a lista de ingressos da compra removendo o ingresso a ser deletado
-        if (compra != null) {
+        
+        if (compra != null) { // remove o ingresso da compra caso ela n esteja vaiza
             compra.getIngressos().removeIf(i -> i.getId() == ingressoId);
         }
 
         ingressoRepository.delete(ingresso);
         assentoRepository.delete(assento);
 
-        // Se a compra ficar sem ingressos, delete ela também
+        // aqui checa para ver se a compra ficou vazia, se sim deleta a compra
         if (compra != null && compra.getIngressos().isEmpty()) {
             pagamentoRepository.findByCompraId(compra.getId()).ifPresent(pagamentoRepository::delete);
             compraRepository.delete(compra);
