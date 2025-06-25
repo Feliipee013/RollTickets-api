@@ -28,7 +28,7 @@ public interface IngressoRepository extends JpaRepository<Ingresso, Long> {
 			    WHERE i.cliente.id = :clienteId AND p.status = :status
 			""")
 	List<Ingresso> findByClienteIdAndPagamentoStatus(@Param("clienteId") Long clienteId,
-			@Param("status") status status);
+			@Param("status") status status);// essa consulta buscas os ingressos que ainda estão como PENDENTES
 
 	List<Ingresso> findByClienteIdAndCompraPagamentoStatus(Long clienteId, status status);
 }
