@@ -13,7 +13,6 @@ import br.com.RollTickets.api.entity.Assento;
 import br.com.RollTickets.api.entity.Compra;
 import br.com.RollTickets.api.entity.Ingresso;
 import br.com.RollTickets.api.entity.Pagamento;
-import br.com.RollTickets.api.entity.Sessao;
 import br.com.RollTickets.api.mapper.AssentoMapper;
 import br.com.RollTickets.api.repository.AssentoRepository;
 import br.com.RollTickets.api.repository.IngressoRepository;
