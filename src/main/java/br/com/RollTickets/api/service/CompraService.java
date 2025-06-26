@@ -6,22 +6,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.RollTickets.api.dto.ClienteCreateDTO;
-import br.com.RollTickets.api.dto.ClienteLoginDTO;
-import br.com.RollTickets.api.dto.ClienteResponseDTO;
-import br.com.RollTickets.api.dto.ClienteUpdateDTO;
+
 import br.com.RollTickets.api.dto.CompraCreateDTO;
 import br.com.RollTickets.api.dto.CompraResponseDTO;
 import br.com.RollTickets.api.dto.CompraUpdateDTO;
 import br.com.RollTickets.api.entity.Cliente;
 import br.com.RollTickets.api.entity.Compra;
 import br.com.RollTickets.api.entity.Ingresso;
-import br.com.RollTickets.api.entity.Pagamento;
 import br.com.RollTickets.api.mapper.CompraMapper;
 import br.com.RollTickets.api.repository.ClienteRepository;
 import br.com.RollTickets.api.repository.CompraRepository;
 import br.com.RollTickets.api.repository.IngressoRepository;
-import br.com.RollTickets.api.repository.PagamentoRepository;
+
 
 @Service
 public class CompraService {
