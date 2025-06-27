@@ -25,7 +25,7 @@ public class SessaoController {
     @Autowired
 	SessaoService sessaoService;
 
-    @PostMapping("/realizar")
+    @PostMapping("/cadastrar")
 	public ResponseEntity<SessaoResponseDTO> store(@RequestBody SessaoCreateDTO sessaoCreateDTO) {
 		return new ResponseEntity<>(sessaoService.store(sessaoCreateDTO), HttpStatus.CREATED);
 	}
