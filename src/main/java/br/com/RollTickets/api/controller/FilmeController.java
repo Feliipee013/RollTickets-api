@@ -25,8 +25,8 @@ public class FilmeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FilmeResponseDTO>> list() {
-        return new ResponseEntity<>(filmeService.list(), HttpStatus.OK);
+    public ResponseEntity<List<FilmeResponseDTO>> list(@RequestParam(required = false) String titulo) {
+        return new ResponseEntity<>(filmeService.list(titulo), HttpStatus.OK);
     }
 
     @GetMapping("/{filme_id}")
