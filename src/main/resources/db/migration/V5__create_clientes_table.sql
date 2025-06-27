@@ -4,5 +4,6 @@ CREATE TABLE clientes(
     email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(100) NOT NULL,
     cpf VARCHAR(14) NOT NULL UNIQUE,
-    telefone VARCHAR(20)
+    telefone VARCHAR(20),
+    role ENUM ('ADMIN','USER') NOT NULL
 );
