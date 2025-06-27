@@ -24,9 +24,15 @@ public class FilmeService {
         return FilmeMapper.toDTO(filme);
     }
 
-    public List<FilmeResponseDTO> list() {
-        return filmeRepository.findAll()
-                .stream()
+    public List<FilmeResponseDTO> list(String titulo) {
+    	List<Filme> filmes;
+    	if(titulo != null && !titulo.isBlank()) {
+    		filmes = filmeRepository.findByTituloContainingIgnoreCase(titulo);
+    	} else {
+    		filmes = filmeRepository.findAll();
+    	}
+        return filmes
+        		.stream()
                 .map(FilmeMapper::toDTO)
                 .toList();
     }
