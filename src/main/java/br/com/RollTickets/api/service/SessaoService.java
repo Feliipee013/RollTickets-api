@@ -8,21 +8,37 @@ import org.springframework.stereotype.Service;
 import br.com.RollTickets.api.dto.SessaoCreateDTO;
 import br.com.RollTickets.api.dto.SessaoResponseDTO;
 import br.com.RollTickets.api.dto.SessaoUpdateDTO;
+import br.com.RollTickets.api.entity.Filme;
+import br.com.RollTickets.api.entity.Sala;
 import br.com.RollTickets.api.entity.Sessao;
 
 import br.com.RollTickets.api.mapper.SessaoMapper;
+import br.com.RollTickets.api.repository.FilmeRepository;
+import br.com.RollTickets.api.repository.SalaRepository;
 import br.com.RollTickets.api.repository.SessaoRepository;
+import jakarta.transaction.Transactional;
 
 
 @Service
 public class SessaoService {
     @Autowired
 	SessaoRepository sessaoRepository;
+    
+    @Autowired
+    FilmeRepository filmeRepository;
+
+    @Autowired
+    SalaRepository salaRepository;
 	
+    
 	public SessaoResponseDTO store(SessaoCreateDTO sessaoCreateDTO) {
-		Sessao sessao = SessaoMapper.toEntity(sessaoCreateDTO);
+		Filme filme = filmeRepository.findById(sessaoCreateDTO.filmeId())
+				.orElseThrow(() -> new RuntimeException("Filme não encontrado"));
+		Sala sala = salaRepository.findById(sessaoCreateDTO.salaId())
+				.orElseThrow(() -> new RuntimeException("Sala não encontrada"));
+		Sessao sessao = SessaoMapper.toEntity(sessaoCreateDTO, filme, sala);
 		sessaoRepository.save(sessao);
-		return SessaoMapper.toDTO(sessao);
+        return SessaoMapper.toDTO(sessao);
 	}
 	
 	public List<SessaoResponseDTO> list() {
