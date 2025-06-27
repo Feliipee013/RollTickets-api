@@ -1,6 +1,9 @@
 package br.com.RollTickets.api.entity;
 
+import br.com.RollTickets.api.enums.Role;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,17 +22,21 @@ public class Cliente {
 	private String cpf;
 	private String telefone;
 	
+	@Enumerated(EnumType.STRING)
+    private Role role;
+
 	public Cliente() {
 		
 	}
 	
-	public Cliente(long id, String nome, String email, String senha, String cpf, String telefone) {
+	public Cliente(long id, String nome, String email, String senha, String cpf, String telefone,Role role) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
 		this.cpf = cpf;
 		this.telefone = telefone;
+		this.role = role;
 	}
 
 	public long getId() {
@@ -78,6 +85,14 @@ public class Cliente {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
 	
