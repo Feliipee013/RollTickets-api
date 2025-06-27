@@ -2,6 +2,8 @@ package br.com.RollTickets.api.mapper;
 
 import br.com.RollTickets.api.dto.SessaoCreateDTO;
 import br.com.RollTickets.api.dto.SessaoResponseDTO;
+import br.com.RollTickets.api.entity.Filme;
+import br.com.RollTickets.api.entity.Sala;
 import br.com.RollTickets.api.entity.Sessao;
 
 public class SessaoMapper {
@@ -10,10 +12,10 @@ public class SessaoMapper {
         return sessaoResponse;
     }
 
-    public static Sessao toEntity(SessaoCreateDTO sessaoCreateDTO){
+    public static Sessao toEntity(SessaoCreateDTO sessaoCreateDTO, Filme filme, Sala sala){
         Sessao sessao = new Sessao();
-        sessao.setFilme(sessaoCreateDTO.filme());
-        sessao.setSala(sessaoCreateDTO.sala());
+        sessao.setFilme(filme);
+        sessao.setSala(sala);
         sessao.setHorario(sessaoCreateDTO.horario());
         return sessao;
     }
