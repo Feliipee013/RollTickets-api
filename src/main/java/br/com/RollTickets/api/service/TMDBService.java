@@ -1,5 +1,7 @@
 package br.com.RollTickets.api.service;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +38,16 @@ public class TMDBService {
             int duracao = 180; // valor fictício, TMDB exige chamada separada para duração real
             String classificacao = "16"; // default, pois TMDB não fornece diretamente
             String imageUrl = "https://image.tmdb.org/t/p/w500" + node.get("poster_path").asText();
-            Formato formato = Formato.DOIS_D;
+            
+            Random random = new Random();
+            Formato formato;
+            int rand = random.nextInt(1,3);
+            if(rand == 1) {
+            	formato = Formato.DOIS_D;
+            } else {
+            	formato = Formato.TRES_D;
+
+            }
             Double avaliacao = node.get("vote_average").asDouble();
                 
             Filme filme = new Filme(titulo, sinopse, duracao, classificacao, imageUrl, formato,avaliacao);
