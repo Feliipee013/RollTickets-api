@@ -22,6 +22,7 @@ import com.mercadopago.resources.payment.Payment;
 import br.com.RollTickets.api.dto.PagamentoCartaoDTO;
 import br.com.RollTickets.api.entity.Compra;
 import br.com.RollTickets.api.repository.CompraRepository;
+import br.com.RollTickets.api.service.EmailService;
 import br.com.RollTickets.api.service.IngressoService;
 import br.com.RollTickets.api.service.PagamentoService;
 import br.com.RollTickets.api.enums.status;
@@ -39,6 +40,9 @@ public class PagamentoMercadoPagoController {
 
     @Autowired
     private IngressoService ingressoService;
+
+    @Autowired
+    private EmailService emailService;
 
     @Value("${mercadopago.token}")
     private String accessToken;
@@ -82,6 +86,16 @@ public class PagamentoMercadoPagoController {
                 pagamentoService.storeOrUpdatePagamento(compra, status.PAGO, metodoPagamento.CREDITO,
                         LocalDateTime.now()); //Busca a compra no BD
                 ingressoService.vincularIngressosPendentesACompra(clienteId, compra.getId()); //Atualiza ou cria o pagamento com o status "PAGO"
+
+                String assunto = "🎟️ Ingressos comprados com sucesso!";
+                String corpoHtml = "<h2>Olá, obrigado por sua compra na RollTickets!</h2>" +
+                   "<p>Seus ingressos foram confirmados com sucesso.</p>" +
+                   "<p><strong>ID da compra:</strong> " + compra.getId() + "</p>" +
+                   "<p><strong>Valor:</strong> R$ " + pagamentoDTO.valor() + "</p>" +
+                   "<p>Aproveite seu filme! 🍿</p>";
+
+                emailService.enviarEmailCompra(pagamentoDTO.payer().email(), assunto, corpoHtml);
+                
                 return ResponseEntity.ok(Map.of( //Isso serve para que todos os ingressos que estejam com pendentes, no final fiquem associados a compra confirmada
                         "status", payment.getStatus(),
                         "id", payment.getId(),
