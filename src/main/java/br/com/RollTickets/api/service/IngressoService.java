@@ -135,7 +135,7 @@ public class IngressoService {
             compraRepository.delete(compra);
         }
     }
-
+    //TESTE
     public void vincularIngressosPendentesACompra(Long clienteId, Long compraId) {
         List<Ingresso> pendentes = ingressoRepository.findByClienteIdAndCompraPagamentoStatus(clienteId,
                 status.PENDENTE); // Essa lista pega todos os ingressos do "clienteId" que estão com o pagamento
